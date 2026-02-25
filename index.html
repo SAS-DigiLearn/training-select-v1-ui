@@ -115,6 +115,33 @@ button:hover {
 .title {
   color:#b91e71;
 }
+
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.completed {
+  background: #e6f7ec;
+  color: #1a7f37;
+}
+
+.outstanding {
+  background: #fff4e5;
+  color: #b76e00;
+}
+
+.complete-btn {
+  background: #1677c7;
+  margin-top: 8px;
+}
+
+.complete-btn.completed-btn {
+  background: #1a7f37;
+}
 </style>
 </head>
 
@@ -218,21 +245,46 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     r.role === selectedRole
   );
 
-  currentSites.forEach(s => {
+ currentSites.forEach(s => {
 
-    const card = document.createElement('div');
-    card.className = 'site-card';
+  const courseKey = selectedDept + "_" + selectedRole + "_" + s.site;
+  const savedStatus = localStorage.getItem(courseKey) || "Outstanding";
 
-    card.innerHTML = `
-      <div>
-        <div class="site-title">${s.site}</div>
-        <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
-      </div>
-      <button onclick="window.open('${s.url}','_blank')">Open Learning Site</button>
-    `;
+  const card = document.createElement('div');
+  card.className = 'site-card';
 
-    siteList.appendChild(card);
+  card.innerHTML = `
+    <div>
+      <div class="site-title">${s.site}</div>
+      <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
+      <span class="status ${savedStatus.toLowerCase()}">
+        ${savedStatus}
+      </span>
+    </div>
+    <button onclick="window.open('${s.url}','_blank')">
+      Launch Course
+    </button>
+    <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
+      ${savedStatus === 'Completed' ? 'Completed ✓' : 'Mark Complete'}
+    </button>
+  `;
+
+  const completeBtn = card.querySelector('.complete-btn');
+
+  completeBtn.addEventListener('click', function() {
+
+    const isCompleted = localStorage.getItem(courseKey) === "Completed";
+
+    if (isCompleted) {
+      localStorage.setItem(courseKey, "Outstanding");
+    } else {
+      localStorage.setItem(courseKey, "Completed");
+    }
+
+    document.getElementById('roleSelect').dispatchEvent(new Event('change'));
   });
+
+  siteList.appendChild(card);
 });
 </script>
 
