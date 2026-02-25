@@ -121,7 +121,6 @@ button:hover {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
-  margin-left: 8px;
 }
 
 .completed {
@@ -140,7 +139,6 @@ button:hover {
   border: solid;
   color: #b91e71;
   border-radius: 8px;
-  
 }
 
 .complete-btn.completed-btn {
@@ -149,6 +147,22 @@ button:hover {
   border-color: #1a7f37;
   border-radius: 8px;
   margin-top: 8px;
+}
+
+/* NEW: Complete row layout */
+.complete-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.complete-row .complete-btn {
+  width: 50%;
+}
+
+.complete-row .status {
+  margin-left: 0;
 }
 </style>
 </head>
@@ -265,16 +279,18 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     <div>
       <div class="site-title">${s.site}</div>
       <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
-      <span class="status ${savedStatus.toLowerCase()}">
-        ${savedStatus}
-      </span>
     </div>
     <button onclick="window.open('${s.url}','_blank')">
       Launch Course
     </button>
-    <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
-      ${savedStatus === 'Completed' ? 'Completed' : 'Mark Complete'}
-    </button>
+    <div class="complete-row">
+      <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
+        ${savedStatus === 'Completed' ? 'Completed' : 'Mark Complete'}
+      </button>
+      <span class="status ${savedStatus.toLowerCase()}">
+        ${savedStatus}
+      </span>
+    </div>
   `;
 
   const completeBtn = card.querySelector('.complete-btn');
