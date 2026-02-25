@@ -175,6 +175,26 @@ button:hover {
 .complete-row .status {
   margin-left: 0;
 }
+
+.launch-btn {
+  background: #b91e71;
+  color: white;
+  border: none;
+  width: 80px;              
+  height: 80px;             
+  border-radius: 50%;      
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.launch-btn:hover {
+  opacity: 0.9;
+}
 </style>
 </head>
 
@@ -291,9 +311,9 @@ document.getElementById('roleSelect').addEventListener('change', function () {
       <div class="site-title">${s.site}</div>
       <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
     </div>
-    <button onclick="window.open('${s.url}','_blank')">
-      Launch Course
-    </button>
+    <button class="launch-btn" onclick="window.open('${s.url}','_blank')">
+  Launch
+</button>
     <div class="complete-row">
       <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
         ${savedStatus === 'Completed' ? 'Mark Incomplete' : 'Mark Complete'}
