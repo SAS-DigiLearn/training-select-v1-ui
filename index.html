@@ -149,7 +149,6 @@ button:hover {
   margin-top: 8px;
 }
 
-/* NEW: Complete row layout */
 .complete-row {
   display: flex;
   align-items: center;
@@ -285,10 +284,10 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     </button>
     <div class="complete-row">
       <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
-        ${savedStatus === 'Completed' ? 'Completed' : 'Mark Complete'}
+        ${savedStatus === 'Completed' ? '✔' : 'Mark Complete'}
       </button>
       <span class="status ${savedStatus.toLowerCase()}">
-        ${savedStatus}
+        ${savedStatus === 'Completed' ? '✔' : 'Outstanding'}
       </span>
     </div>
   `;
