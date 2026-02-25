@@ -116,66 +116,74 @@ button:hover {
   color:#b91e71;
 }
 
-.status {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-}
-
-.completed {
-  background: #1a7f37;
-  color: #ffff;
-  margin-top: 8px;
-  width: 30%;
-  text-align: center;
-  padding: 4%;
-  border-radius: 8px;
-}
-
-.outstanding {
-  background: #FAEFDC;
-  color: #832525;
-  margin-top: 8px;
-  width: 30%;
-  text-align: center;
-  padding: 4%;
-  border-radius: 8px;
-}
-
-.complete-btn {
-  background: #ffffff;
-  margin-top: 8px;
-  border: solid;
-  color: #b91e71;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.complete-btn.completed-btn {
- background: #ffffff;
-  margin-top: 8px;
-  border: solid;
-  color: #b91e71;
-  border-radius: 8px;
-  padding: 8px;
-}
+/* NEW TOGGLE STYLES */
 
 .complete-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
-.complete-row .complete-btn {
-  width: 55%;
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
 }
 
-.complete-row .status {
-  margin-left: 0;
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #FAEFDC;
+  transition: .3s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #832525;
+  transition: .3s;
+  border-radius: 50%;
+}
+
+.toggle input:checked + .slider {
+  background-color: #1a7f37;
+}
+
+.toggle input:checked + .slider:before {
+  transform: translateX(20px);
+  background-color: white;
+}
+
+.status-text {
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.completed-text {
+  color: #1a7f37;
+}
+
+.outstanding-text {
+  color: #832525;
+}
 
 </style>
 </head>
@@ -280,50 +288,51 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     r.role === selectedRole
   );
 
- currentSites.forEach(s => {
+  currentSites.forEach(s => {
 
-  const courseKey = selectedDept + "_" + selectedRole + "_" + s.site;
-  const savedStatus = localStorage.getItem(courseKey) || "Outstanding";
+    const courseKey = selectedDept + "_" + selectedRole + "_" + s.site;
+    const savedStatus = localStorage.getItem(courseKey) || "Outstanding";
+    const isCompleted = savedStatus === "Completed";
 
-  const card = document.createElement('div');
-  card.className = 'site-card';
+    const card = document.createElement('div');
+    card.className = 'site-card';
 
-  card.innerHTML = `
-    <div>
-      <div class="site-title">${s.site}</div>
-      <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
-    </div>
-    <button onclick="window.open('${s.url}','_blank')">
-      Launch Course
-    </button>
-    <div class="complete-row">
-      <button class="complete-btn ${savedStatus === 'Completed' ? 'completed-btn' : ''}">
-        ${savedStatus === 'Completed' ? 'Mark Incomplete' : 'Mark Complete'}
+    card.innerHTML = `
+      <div>
+        <div class="site-title">${s.site}</div>
+        <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
+      </div>
+
+      <button onclick="window.open('${s.url}','_blank')">
+        Launch Course
       </button>
-      <span class="status ${savedStatus.toLowerCase()}">
-        ${savedStatus === 'Completed' ? 'Completed' : 'Outstanding'}
-      </span>
-    </div>
-  `;
 
-  const completeBtn = card.querySelector('.complete-btn');
+      <div class="complete-row">
+        <label class="toggle">
+          <input type="checkbox" ${isCompleted ? 'checked' : ''}>
+          <span class="slider"></span>
+        </label>
+        <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
+          ${isCompleted ? 'Completed' : 'Outstanding'}
+        </span>
+      </div>
+    `;
 
-  completeBtn.addEventListener('click', function() {
+    const checkbox = card.querySelector('input[type="checkbox"]');
+    const statusText = card.querySelector('.status-text');
 
-    const isCompleted = localStorage.getItem(courseKey) === "Completed";
+    checkbox.addEventListener('change', function() {
+      const newStatus = this.checked ? "Completed" : "Outstanding";
+      localStorage.setItem(courseKey, newStatus);
 
-    if (isCompleted) {
-      localStorage.setItem(courseKey, "Outstanding");
-    } else {
-      localStorage.setItem(courseKey, "Completed");
-    }
+      statusText.textContent = newStatus;
+      statusText.className = "status-text " + (this.checked ? "completed-text" : "outstanding-text");
+    });
 
-    document.getElementById('roleSelect').dispatchEvent(new Event('change'));
+    siteList.appendChild(card);
   });
 
-  siteList.appendChild(card);
 });
-  });
 </script>
 
 </body>
