@@ -294,7 +294,7 @@ document.getElementById('departmentSelect').addEventListener('change', function(
 
   filteredRoles.forEach(role => {
     const option = document.createElement('option');
-    option.value = role.role_id; // 👈 important change
+    option.value = role.role_id; 
     option.textContent = role.role_name;
     roleSelect.appendChild(option);
   });
@@ -323,7 +323,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
   currentCourses.forEach(course => {
 
-    // ✅ BONUS UPGRADE: stable storage key
+    
     const storageKey = currentRoleId + "_" + course.course_id;
 
     const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
@@ -357,7 +357,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     const statusText = card.querySelector('.status-text');
 
     checkbox.addEventListener('change', function() {
-      const newStatus = this.checked ? "Completed" : "Outstanding";
+      const newStatus = this.checked ? "Completed ✅" : "Outstanding";
       localStorage.setItem(storageKey, newStatus);
 
       statusText.textContent = newStatus;
