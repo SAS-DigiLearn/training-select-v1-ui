@@ -116,7 +116,7 @@ button:hover {
   color:#b91e71;
 }
 
-/* NEW TOGGLE STYLES */
+/* TOGGLE STYLES */
 
 .complete-row {
   display: flex;
@@ -214,29 +214,55 @@ button:hover {
 </div>
 
 <script>
+
+let coursesData = [];
 let rolesData = [];
-let currentSites = [];
+let roleCourseMap = [];
+let currentRoleId = null;
 
-fetch('roles1.csv')
-  .then(response => response.text())
-  .then(text => {
+// Load all three CSV files
+Promise.all([
+  fetch('courses.csv').then(r => r.text()),
+  fetch('roles.csv').then(r => r.text()),
+  fetch('role_course_map.csv').then(r => r.text())
+])
+.then(([coursesText, rolesText, mapText]) => {
 
-    const rows = text.trim().split('\n').slice(1);
-
-    rolesData = rows.map(row => {
-      const cols = row.split(',');
-      return {
-        department: cols[0].trim(),
-        role: cols[1].trim(),
-        site: cols[2].trim(),
-        type: cols[3].trim(),
-        url: cols[4].trim()
-      };
-    });
-
-    populateDepartments();
+  // Parse courses.csv
+  coursesData = coursesText.trim().split('\n').slice(1).map(row => {
+    const cols = row.split(',');
+    return {
+      course_id: cols[0].trim(),
+      site: cols[1].trim(),
+      type: cols[2].trim(),
+      url: cols[3].trim()
+    };
   });
 
+  // Parse roles.csv
+  rolesData = rolesText.trim().split('\n').slice(1).map(row => {
+    const cols = row.split(',');
+    return {
+      role_id: cols[0].trim(),
+      department: cols[1].trim(),
+      role_name: cols[2].trim()
+    };
+  });
+
+  // Parse role_course_map.csv
+  roleCourseMap = mapText.trim().split('\n').slice(1).map(row => {
+    const cols = row.split(',');
+    return {
+      role_id: cols[0].trim(),
+      course_id: cols[1].trim()
+    };
+  });
+
+  populateDepartments();
+});
+
+
+// Populate Departments
 function populateDepartments() {
   const deptSelect = document.getElementById('departmentSelect');
 
@@ -252,6 +278,8 @@ function populateDepartments() {
   });
 }
 
+
+// Department Change
 document.getElementById('departmentSelect').addEventListener('change', function() {
 
   const selectedDept = this.value;
@@ -263,35 +291,42 @@ document.getElementById('departmentSelect').addEventListener('change', function(
   siteList.innerHTML = '';
 
   const filteredRoles = rolesData.filter(r => r.department === selectedDept);
-  const uniqueRoles = [...new Set(filteredRoles.map(r => r.role))];
 
-  uniqueRoles.forEach(role => {
+  filteredRoles.forEach(role => {
     const option = document.createElement('option');
-    option.value = role;
-    option.textContent = role;
+    option.value = role.role_id; // 👈 important change
+    option.textContent = role.role_name;
     roleSelect.appendChild(option);
   });
 
 });
 
+
+// Role Change
 document.getElementById('roleSelect').addEventListener('change', function () {
 
-  const selectedDept = document.getElementById('departmentSelect').value;
-  const selectedRole = this.value;
-
+  currentRoleId = this.value;
   const siteList = document.getElementById('siteList');
 
   siteList.innerHTML = '';
 
-  currentSites = rolesData.filter(r =>
-    r.department === selectedDept &&
-    r.role === selectedRole
-  );
+  if (!currentRoleId) return;
 
-  currentSites.forEach(s => {
+  // Find all course_ids linked to this role
+  const mappedCourseIds = roleCourseMap
+    .filter(m => m.role_id === currentRoleId)
+    .map(m => m.course_id);
 
-    const courseKey = selectedDept + "_" + selectedRole + "_" + s.site;
-    const savedStatus = localStorage.getItem(courseKey) || "Outstanding";
+  // Get full course objects
+  const currentCourses = coursesData
+    .filter(c => mappedCourseIds.includes(c.course_id));
+
+  currentCourses.forEach(course => {
+
+    // ✅ BONUS UPGRADE: stable storage key
+    const storageKey = currentRoleId + "_" + course.course_id;
+
+    const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
     const isCompleted = savedStatus === "Completed";
 
     const card = document.createElement('div');
@@ -299,11 +334,11 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
     card.innerHTML = `
       <div>
-        <div class="site-title">${s.site}</div>
-        <span class="badge ${s.type.toLowerCase()}">${s.type}</span>
+        <div class="site-title">${course.site}</div>
+        <span class="badge ${course.type.toLowerCase()}">${course.type}</span>
       </div>
 
-      <button onclick="window.open('${s.url}','_blank')">
+      <button onclick="window.open('${course.url}','_blank')">
         Launch Course
       </button>
 
@@ -323,16 +358,18 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
     checkbox.addEventListener('change', function() {
       const newStatus = this.checked ? "Completed" : "Outstanding";
-      localStorage.setItem(courseKey, newStatus);
+      localStorage.setItem(storageKey, newStatus);
 
       statusText.textContent = newStatus;
-      statusText.className = "status-text " + (this.checked ? "completed-text" : "outstanding-text");
+      statusText.className = "status-text " + 
+        (this.checked ? "completed-text" : "outstanding-text");
     });
 
     siteList.appendChild(card);
   });
 
 });
+
 </script>
 
 </body>
