@@ -1,0 +1,6 @@
+role_id,department,role_name
+R001,Test Department,Test Role
+R002,Procurement,Procurement Officer
+R003,Estates,Head of Estates
+R004,Estates,Technician
+R005,Finance,Head of Finance
