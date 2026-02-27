@@ -212,7 +212,7 @@ button:hover {
   <div class="sites" id="siteList"></div>
 
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
 
 let coursesData = [];
@@ -229,34 +229,22 @@ Promise.all([
 .then(([coursesText, rolesText, mapText]) => {
 
   // Parse courses.csv
-  coursesData = coursesText.trim().split('\n').slice(1).map(row => {
-    const cols = row.split(',');
-    return {
-      course_id: cols[0].trim(),
-      site: cols[1].trim(),
-      type: cols[2].trim(),
-      url: cols[3].trim()
-    };
-  });
+  coursesData = Papa.parse(coursesText, {
+    header: true,
+    skipEmptyLines: true
+  }).data;
 
   // Parse roles.csv
-  rolesData = rolesText.trim().split('\n').slice(1).map(row => {
-    const cols = row.split(',');
-    return {
-      role_id: cols[0].trim(),
-      department: cols[1].trim(),
-      role_name: cols[2].trim()
-    };
-  });
+  rolesData = Papa.parse(rolesText, {
+    header: true,
+    skipEmptyLines: true
+  }).data;
 
   // Parse role_course_map.csv
-  roleCourseMap = mapText.trim().split('\n').slice(1).map(row => {
-    const cols = row.split(',');
-    return {
-      role_id: cols[0].trim(),
-      course_id: cols[1].trim()
-    };
-  });
+  roleCourseMap = Papa.parse(mapText, {
+    header: true,
+    skipEmptyLines: true
+  }).data;
 
   populateDepartments();
 });
@@ -294,7 +282,7 @@ document.getElementById('departmentSelect').addEventListener('change', function(
 
   filteredRoles.forEach(role => {
     const option = document.createElement('option');
-    option.value = role.role_id; 
+    option.value = role.role_id;
     option.textContent = role.role_name;
     roleSelect.appendChild(option);
   });
@@ -323,7 +311,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
   currentCourses.forEach(course => {
 
-    
+    // Stable storage key (bonus upgrade)
     const storageKey = currentRoleId + "_" + course.course_id;
 
     const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
@@ -357,11 +345,11 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     const statusText = card.querySelector('.status-text');
 
     checkbox.addEventListener('change', function() {
-      const newStatus = this.checked ? "Completed ✅" : "Outstanding";
+      const newStatus = this.checked ? "Completed" : "Outstanding";
       localStorage.setItem(storageKey, newStatus);
 
       statusText.textContent = newStatus;
-      statusText.className = "status-text " + 
+      statusText.className = "status-text " +
         (this.checked ? "completed-text" : "outstanding-text");
     });
 
