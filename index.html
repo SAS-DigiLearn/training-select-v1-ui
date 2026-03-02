@@ -70,9 +70,22 @@ select:focus {
   padding: 18px;
   border-radius: 14px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  height: 260px; /* Ensures equal height */
+}
+
+.card-top {
+  flex-grow: 1; /* Title area expands */
+}
+
+.card-middle {
+  margin-bottom: 12px;
+}
+
+.card-bottom {
+  margin-top: auto; /* Pushes button + toggle to bottom */
 }
 
 .site-title {
@@ -86,12 +99,11 @@ select:focus {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
-  margin-bottom: 12px;
 }
 
 .site-badge {
- background: #ffe5f2;
- color: #b91e71;
+  background: #f3e8ff;
+  color: #5b21b6;
 }
 
 .course-badge {
@@ -220,50 +232,22 @@ let rolesData = [];
 let roleCourseMap = [];
 let currentRoleId = null;
 
-// Load all three CSV files
 Promise.all([
-  fetch('courses.csv').then(r => {
-    if (!r.ok) throw new Error("courses.csv not found");
-    return r.text();
-  }),
-  fetch('roles.csv').then(r => {
-    if (!r.ok) throw new Error("roles.csv not found");
-    return r.text();
-  }),
-  fetch('role_course_map.csv').then(r => {
-    if (!r.ok) throw new Error("role_course_map.csv not found");
-    return r.text();
-  })
+  fetch('courses.csv').then(r => r.text()),
+  fetch('roles.csv').then(r => r.text()),
+  fetch('role_course_map.csv').then(r => r.text())
 ])
 .then(([coursesText, rolesText, mapText]) => {
 
-  coursesData = Papa.parse(coursesText, {
-    header: true,
-    skipEmptyLines: true
-  }).data;
-
-  rolesData = Papa.parse(rolesText, {
-    header: true,
-    skipEmptyLines: true
-  }).data;
-
-  roleCourseMap = Papa.parse(mapText, {
-    header: true,
-    skipEmptyLines: true
-  }).data;
+  coursesData = Papa.parse(coursesText, { header: true, skipEmptyLines: true }).data;
+  rolesData = Papa.parse(rolesText, { header: true, skipEmptyLines: true }).data;
+  roleCourseMap = Papa.parse(mapText, { header: true, skipEmptyLines: true }).data;
 
   populateDepartments();
-})
-.catch(error => {
-  console.error("Data loading error:", error);
-  alert("Error loading CSV files. Check console.");
 });
 
-
-// Populate Departments
 function populateDepartments() {
   const deptSelect = document.getElementById('departmentSelect');
-
   const departments = [...new Set(rolesData.map(r => r.department))];
 
   deptSelect.innerHTML = '<option value="">-- Choose department --</option>';
@@ -276,8 +260,6 @@ function populateDepartments() {
   });
 }
 
-
-// Department Change
 document.getElementById('departmentSelect').addEventListener('change', function() {
 
   const selectedDept = this.value;
@@ -299,74 +281,74 @@ document.getElementById('departmentSelect').addEventListener('change', function(
 
 });
 
-
-// Role Change
 document.getElementById('roleSelect').addEventListener('change', function () {
 
   currentRoleId = this.value;
   const siteList = document.getElementById('siteList');
-
   siteList.innerHTML = '';
 
   if (!currentRoleId) return;
 
-  // Find all course_ids linked to this role
   const mappedCourseIds = roleCourseMap
     .filter(m => m.role_id === currentRoleId)
     .map(m => m.course_id);
 
-  // Get full course objects
   const currentCourses = coursesData
     .filter(c => mappedCourseIds.includes(c.course_id));
 
-currentCourses.forEach(course => {
+  currentCourses.forEach(course => {
 
-  const storageKey = currentRoleId + "_" + course.course_id;
-  const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
-  const isCompleted = savedStatus === "Completed";
+    const storageKey = currentRoleId + "_" + course.course_id;
+    const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
+    const isCompleted = savedStatus === "Completed";
 
-  const isSite = course.category === "site";
-  const buttonText = isSite ? "Launch Site" : "Launch Course";
-  const badgeClass = isSite ? "site-badge" : "course-badge";
-  const badgeText = isSite ? "Site (Multiple Courses)" : "Individual Course";
+    const isSite = course.category === "site";
+    const buttonText = isSite ? "Launch Site" : "Launch Course";
+    const badgeClass = isSite ? "site-badge" : "course-badge";
+    const badgeText = isSite ? "Site (Multiple Courses)" : "Individual Course";
 
-  const card = document.createElement('div');
-  card.className = 'site-card';
+    const card = document.createElement('div');
+    card.className = 'site-card';
 
-  card.innerHTML = `
-    <div>
-      <div class="site-title">${course.site}</div>
-      <span class="badge ${badgeClass}">${badgeText}</span>
-    </div>
+    card.innerHTML = `
+      <div class="card-top">
+        <div class="site-title">${course.site}</div>
+      </div>
 
-    <button onclick="window.open('${course.url}','_blank')">
-      ${buttonText}
-    </button>
+      <div class="card-middle">
+        <span class="badge ${badgeClass}">${badgeText}</span>
+      </div>
 
-    <div class="complete-row">
-      <label class="toggle">
-        <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-        <span class="slider"></span>
-      </label>
-      <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
-        ${isCompleted ? 'Completed' : 'Outstanding'}
-      </span>
-    </div>
-  `;
+      <div class="card-bottom">
+        <button onclick="window.open('${course.url}','_blank')">
+          ${buttonText}
+        </button>
 
-  const checkbox = card.querySelector('input[type="checkbox"]');
-  const statusText = card.querySelector('.status-text');
+        <div class="complete-row">
+          <label class="toggle">
+            <input type="checkbox" ${isCompleted ? 'checked' : ''}>
+            <span class="slider"></span>
+          </label>
+          <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
+            ${isCompleted ? 'Completed' : 'Outstanding'}
+          </span>
+        </div>
+      </div>
+    `;
 
-  checkbox.addEventListener('change', function() {
-    const newStatus = this.checked ? "Completed" : "Outstanding";
-    localStorage.setItem(storageKey, newStatus);
+    const checkbox = card.querySelector('input[type="checkbox"]');
+    const statusText = card.querySelector('.status-text');
 
-    statusText.textContent = newStatus;
-    statusText.className = "status-text " +
-      (this.checked ? "completed-text" : "outstanding-text");
-  });
+    checkbox.addEventListener('change', function() {
+      const newStatus = this.checked ? "Completed" : "Outstanding";
+      localStorage.setItem(storageKey, newStatus);
+      statusText.textContent = newStatus;
+      statusText.className = "status-text " +
+        (this.checked ? "completed-text" : "outstanding-text");
+    });
 
-  siteList.appendChild(card);
+    siteList.appendChild(card);
+
   });
 
 });
