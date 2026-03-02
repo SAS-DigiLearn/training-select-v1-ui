@@ -319,62 +319,54 @@ document.getElementById('roleSelect').addEventListener('change', function () {
   const currentCourses = coursesData
     .filter(c => mappedCourseIds.includes(c.course_id));
 
-  currentCourses.forEach(course => {
+currentCourses.forEach(course => {
 
-    // Stable storage key (bonus upgrade)
-    const storageKey = currentRoleId + "_" + course.course_id;
+  const storageKey = currentRoleId + "_" + course.course_id;
+  const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
+  const isCompleted = savedStatus === "Completed";
 
-    const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
-    const isCompleted = savedStatus === "Completed";
+  const isSite = course.category === "site";
+  const buttonText = isSite ? "Launch Site" : "Launch Course";
+  const badgeClass = isSite ? "site-badge" : "course-badge";
+  const badgeText = isSite ? "Site (Multiple Courses)" : "Individual Course";
 
-    const card = document.createElement('div');
-    card.className = 'site-card';
+  const card = document.createElement('div');
+  card.className = 'site-card';
 
-    card.innerHTML = `
-      <div>
-        <div class="site-title">${course.site}</div>
-       
-      </div>
+  card.innerHTML = `
+    <div>
+      <div class="site-title">${course.site}</div>
+      <span class="badge ${badgeClass}">${badgeText}</span>
+    </div>
 
-     const isSite = course.category === "site";
-const buttonText = isSite ? "Launch Site" : "Launch Course";
-const badgeClass = isSite ? "site-badge" : "course-badge";
-const badgeText = isSite ? "Site (Multiple Courses)" : "Individual Course";
+    <button onclick="window.open('${course.url}','_blank')">
+      ${buttonText}
+    </button>
 
-card.innerHTML = `
-  <div>
-    <div class="site-title">${course.site}</div>
-    <span class="badge ${badgeClass}">${badgeText}</span>
-  </div>
+    <div class="complete-row">
+      <label class="toggle">
+        <input type="checkbox" ${isCompleted ? 'checked' : ''}>
+        <span class="slider"></span>
+      </label>
+      <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
+        ${isCompleted ? 'Completed' : 'Outstanding'}
+      </span>
+    </div>
+  `;
 
-  <button onclick="window.open('${course.url}','_blank')">
-    ${buttonText}
-  </button>
+  const checkbox = card.querySelector('input[type="checkbox"]');
+  const statusText = card.querySelector('.status-text');
 
-  <div class="complete-row">
-    <label class="toggle">
-      <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-      <span class="slider"></span>
-    </label>
-    <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
-      ${isCompleted ? 'Completed' : 'Outstanding'}
-    </span>
-  </div>
-`;
+  checkbox.addEventListener('change', function() {
+    const newStatus = this.checked ? "Completed" : "Outstanding";
+    localStorage.setItem(storageKey, newStatus);
 
-    const checkbox = card.querySelector('input[type="checkbox"]');
-    const statusText = card.querySelector('.status-text');
+    statusText.textContent = newStatus;
+    statusText.className = "status-text " +
+      (this.checked ? "completed-text" : "outstanding-text");
+  });
 
-    checkbox.addEventListener('change', function() {
-      const newStatus = this.checked ? "Completed" : "Outstanding";
-      localStorage.setItem(storageKey, newStatus);
-
-      statusText.textContent = newStatus;
-      statusText.className = "status-text " +
-        (this.checked ? "completed-text" : "outstanding-text");
-    });
-
-    siteList.appendChild(card);
+  siteList.appendChild(card);
   });
 
 });
