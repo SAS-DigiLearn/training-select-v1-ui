@@ -89,16 +89,16 @@ select:focus {
   margin-bottom: 12px;
 }
 
-.required {
-  background: #ffe5f2;
-  color: #911858;
+.site-badge {
+  background: #f3e8ff;
+  color: #5b21b6;
 }
 
-.optional {
-  background: #E0F1FF;
-  color: #0F5085;
+.course-badge {
+  background: #e0f2fe;
+  color: #075985;
 }
-
+  
 button {
   background: #b91e71;
   color: white;
@@ -323,23 +323,34 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     card.innerHTML = `
       <div>
         <div class="site-title">${course.site}</div>
-        <span class="badge ${course.type.toLowerCase()}">${course.type}</span>
+       
       </div>
 
-      <button onclick="window.open('${course.url}','_blank')">
-        Launch Course
-      </button>
+     const isSite = course.category === "site";
+const buttonText = isSite ? "Launch Site" : "Launch Course";
+const badgeClass = isSite ? "site-badge" : "course-badge";
+const badgeText = isSite ? "Site (Multiple Courses)" : "Individual Course";
 
-      <div class="complete-row">
-        <label class="toggle">
-          <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-          <span class="slider"></span>
-        </label>
-        <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
-          ${isCompleted ? 'Completed' : 'Outstanding'}
-        </span>
-      </div>
-    `;
+card.innerHTML = `
+  <div>
+    <div class="site-title">${course.site}</div>
+    <span class="badge ${badgeClass}">${badgeText}</span>
+  </div>
+
+  <button onclick="window.open('${course.url}','_blank')">
+    ${buttonText}
+  </button>
+
+  <div class="complete-row">
+    <label class="toggle">
+      <input type="checkbox" ${isCompleted ? 'checked' : ''}>
+      <span class="slider"></span>
+    </label>
+    <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
+      ${isCompleted ? 'Completed' : 'Outstanding'}
+    </span>
+  </div>
+`;
 
     const checkbox = card.querySelector('input[type="checkbox"]');
     const statusText = card.querySelector('.status-text');
