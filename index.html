@@ -222,31 +222,41 @@ let currentRoleId = null;
 
 // Load all three CSV files
 Promise.all([
-  fetch('courses.csv').then(r => r.text()),
-  fetch('roles.csv').then(r => r.text()),
-  fetch('role_course_map.csv').then(r => r.text())
+  fetch('courses.csv').then(r => {
+    if (!r.ok) throw new Error("courses.csv not found");
+    return r.text();
+  }),
+  fetch('roles.csv').then(r => {
+    if (!r.ok) throw new Error("roles.csv not found");
+    return r.text();
+  }),
+  fetch('role_course_map.csv').then(r => {
+    if (!r.ok) throw new Error("role_course_map.csv not found");
+    return r.text();
+  })
 ])
 .then(([coursesText, rolesText, mapText]) => {
 
-  // Parse courses.csv
   coursesData = Papa.parse(coursesText, {
     header: true,
     skipEmptyLines: true
   }).data;
 
-  // Parse roles.csv
   rolesData = Papa.parse(rolesText, {
     header: true,
     skipEmptyLines: true
   }).data;
 
-  // Parse role_course_map.csv
   roleCourseMap = Papa.parse(mapText, {
     header: true,
     skipEmptyLines: true
   }).data;
 
   populateDepartments();
+})
+.catch(error => {
+  console.error("Data loading error:", error);
+  alert("Error loading CSV files. Check console.");
 });
 
 
