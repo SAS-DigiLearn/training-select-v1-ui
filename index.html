@@ -303,7 +303,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
     const isCompleted = savedStatus === "Completed";
 
-    const isNewStarter = course.newstarter === "true";
+    const isNewStarter = String(course.newstarter).toLowerCase().trim() === "true";
 
     if (isNewStarter && isCompleted) {
       return;
