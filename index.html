@@ -134,8 +134,6 @@ button:hover {
   margin-left:10px;
 }
 
-/* TOGGLE STYLES */
-
 .complete-row {
   display: flex;
   align-items: center;
@@ -226,7 +224,7 @@ button:hover {
     </select>
 
     <button id="favRoleBtn" style="width:auto;">⭐ Save Favourite</button>
-    <button id="viewFavBtn" style="width:auto;">⭐ View Favourite</button>
+    <button id="viewFavBtn" style="width:auto;">⭐ Jump to Favourite</button>
 
     <span id="favDisplay" class="fav-display"></span>
 
@@ -372,7 +370,6 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
 });
 
-
 document.getElementById("favRoleBtn").addEventListener("click", function(){
 
   if(!currentRoleId){
@@ -385,7 +382,6 @@ document.getElementById("favRoleBtn").addEventListener("click", function(){
   alert("Favourite role saved ⭐");
 
 });
-
 
 document.getElementById("viewFavBtn").addEventListener("click", function(){
 
@@ -412,11 +408,10 @@ document.getElementById("viewFavBtn").addEventListener("click", function(){
 
 });
 
-
 function restoreSelections(){
 
   const savedDept = localStorage.getItem("selectedDepartment");
-  const savedRole = localStorage.getItem("favouriteRole") || localStorage.getItem("selectedRole");
+  const savedRole = localStorage.getItem("selectedRole");
 
   if(!savedDept) return;
 
@@ -444,7 +439,6 @@ function restoreSelections(){
   }
 
 }
-
 
 function updateFavouriteDisplay(){
 
