@@ -77,7 +77,7 @@ select:focus {
 }
 
 .card-top {
-  flex-grow: 1; /* Title area expands */
+  flex-grow: 1;
 }
 
 .card-middle {
@@ -220,11 +220,15 @@ button:hover {
       <option value="">Select department first</option>
     </select>
 
+    <!-- NEW favourite button -->
+    <button id="favRoleBtn" style="width:auto;">⭐ Save Favourite Role</button>
+
   </div>
 
   <div class="sites" id="siteList"></div>
 
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 <script>
 
@@ -245,6 +249,7 @@ Promise.all([
   roleCourseMap = Papa.parse(mapText, { header: true, skipEmptyLines: true }).data;
 
   populateDepartments();
+  restoreSelections(); // NEW
 });
 
 function populateDepartments() {
@@ -264,6 +269,8 @@ function populateDepartments() {
 document.getElementById('departmentSelect').addEventListener('change', function() {
 
   const selectedDept = this.value;
+  localStorage.setItem("selectedDepartment", selectedDept); // NEW
+
   const roleSelect = document.getElementById('roleSelect');
   const siteList = document.getElementById('siteList');
 
@@ -285,6 +292,8 @@ document.getElementById('departmentSelect').addEventListener('change', function(
 document.getElementById('roleSelect').addEventListener('change', function () {
 
   currentRoleId = this.value;
+  localStorage.setItem("selectedRole", currentRoleId); // NEW
+
   const siteList = document.getElementById('siteList');
   siteList.innerHTML = '';
 
@@ -353,6 +362,47 @@ document.getElementById('roleSelect').addEventListener('change', function () {
   });
 
 });
+
+
+// ⭐ SAVE FAVOURITE ROLE
+document.getElementById("favRoleBtn").addEventListener("click", function(){
+
+  if(!currentRoleId){
+    alert("Select a role first");
+    return;
+  }
+
+  localStorage.setItem("favouriteRole", currentRoleId);
+  alert("Favourite role saved ⭐");
+
+});
+
+
+// RESTORE SAVED ROLE / FAVOURITE
+function restoreSelections(){
+
+  const savedDept = localStorage.getItem("selectedDepartment");
+  const savedRole = localStorage.getItem("favouriteRole") || localStorage.getItem("selectedRole");
+
+  if(!savedDept) return;
+
+  const deptSelect = document.getElementById("departmentSelect");
+  const roleSelect = document.getElementById("roleSelect");
+
+  deptSelect.value = savedDept;
+
+  deptSelect.dispatchEvent(new Event("change"));
+
+  setTimeout(() => {
+
+    if(savedRole){
+      roleSelect.value = savedRole;
+      roleSelect.dispatchEvent(new Event("change"));
+    }
+
+  },50);
+
+}
 
 </script>
 
