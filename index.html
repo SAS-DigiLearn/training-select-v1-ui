@@ -379,7 +379,7 @@ document.getElementById("favRoleBtn").addEventListener("click", function(){
 
   localStorage.setItem("favouriteRole", currentRoleId);
   updateFavouriteDisplay();
-  alert("Favourite role saved ⭐");
+  alert("Role saved ⭐");
 
 });
 
@@ -388,7 +388,7 @@ document.getElementById("viewFavBtn").addEventListener("click", function(){
   const favRole = localStorage.getItem("favouriteRole");
 
   if(!favRole){
-    alert("No favourite role saved");
+    alert("No role saved");
     return;
   }
 
@@ -453,7 +453,7 @@ function updateFavouriteDisplay(){
   const role = rolesData.find(r => r.role_id === favRole);
 
   if(role){
-    favDisplay.textContent = "⭐ Favourite: " + role.role_name;
+    favDisplay.textContent = "⭐ My role: " + role.role_name;
   }
 
 }
