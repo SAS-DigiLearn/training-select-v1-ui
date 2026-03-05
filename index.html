@@ -306,7 +306,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
     const isSite = course.category === "site";
     const buttonText = isSite ? "Launch Site" : "Launch eLearning";
     const badgeClass = isSite ? "site-badge" : "course-badge";
-    const badgeText = isSite ? "Site (Complete all Modules)" : "Individual Module";
+    const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
 
     const card = document.createElement('div');
     card.className = 'site-card';
