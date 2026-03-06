@@ -126,21 +126,27 @@ button:hover {
 
 .faves {
   background: #ffffff;
-    color: #b91e71;
-    border: solid;
-    padding: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.faves:active {
-background: #b91e71;
-color: #ffffff;
+  color: #b91e71;
+  border: solid;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .faves:hover {
-background: #b91e71;
-color: #ffffff;
+  background: #b91e71;
+  color: #ffffff;
+}
+
+.faves:active {
+  background: #b91e71;
+  color: #ffffff;
+}
+
+/* Added selected state */
+.faves.selected {
+  background: #b91e71;
+  color: #ffffff;
 }
 
 .title {
@@ -389,14 +395,18 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
 });
 
-  document.getElementById("favRoleBtn").addEventListener("click", function(){
+document.getElementById("favRoleBtn").addEventListener("click", function(){
 
   if(!currentRoleId){
     alert("Select a role first");
     return;
   }
 
+  localStorage.setItem("favouriteRole", currentRoleId);
 
+  this.classList.add("selected");
+
+  updateFavouriteDisplay();
 
 });
 
@@ -408,6 +418,8 @@ document.getElementById("viewFavBtn").addEventListener("click", function(){
     alert("No role saved");
     return;
   }
+
+  this.classList.add("selected");
 
   const role = rolesData.find(r => r.role_id === favRole);
   if(!role) return;
@@ -461,6 +473,7 @@ function updateFavouriteDisplay(){
 
   const favRole = localStorage.getItem("favouriteRole");
   const favDisplay = document.getElementById("favDisplay");
+  const favBtn = document.getElementById("favRoleBtn");
 
   if(!favRole){
     favDisplay.textContent = "";
@@ -471,6 +484,7 @@ function updateFavouriteDisplay(){
 
   if(role){
     favDisplay.textContent = "⭐ My role: " + role.role_name;
+    favBtn.classList.add("selected");
   }
 
 }
