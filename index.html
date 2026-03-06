@@ -389,16 +389,14 @@ document.getElementById('roleSelect').addEventListener('change', function () {
 
 });
 
-document.getElementById("favRoleBtn").addEventListener("click", function(){
+  document.getElementById("favRoleBtn").addEventListener("click", function(){
 
   if(!currentRoleId){
     alert("Select a role first");
     return;
   }
 
-  localStorage.setItem("favouriteRole", currentRoleId);
-  updateFavouriteDisplay();
-  alert("Role saved ⭐");
+
 
 });
 
