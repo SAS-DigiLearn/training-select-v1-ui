@@ -552,7 +552,7 @@ function updateFavouriteDisplay(){
   const role = rolesData.find(r => r.role_id === favRole);
 
   if(role){
-    favDisplay.textContent = "⭐ My role: " + role.role_name;
+    favDisplay.textContent = "My Saved Role: " + role.role_name;
 
     if(currentRoleId === favRole){
       favBtn.classList.add("selected");
