@@ -143,8 +143,31 @@ background: #b91e71;
 color: #ffffff;
 }
 
-/* Selected button state */
 .faves.selected {
+  background: #b91e71;
+  color: #ffffff;
+}
+
+.viewfav {
+  background: #ffffff;
+  color: #b91e71;
+  border: solid;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.viewfav:hover {
+  background: #b91e71;
+  color: #ffffff;
+}
+
+.viewfav:active {
+background: #b91e71;
+color: #ffffff;
+}
+
+.viewfav.selected {
   background: #b91e71;
   color: #ffffff;
 }
@@ -249,7 +272,7 @@ color: #ffffff;
     </select>
 
     <button id="favRoleBtn" class="faves" style="width:auto;">Save Role</button>
-    <button id="viewFavBtn" class="faves" style="width:auto;">View Saved Role</button>
+    <button id="viewFavBtn" class="viewfav" style="width:auto;">View Saved Role</button>
 
     <span id="favDisplay" class="fav-display"></span>
 
