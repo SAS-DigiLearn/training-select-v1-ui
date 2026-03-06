@@ -373,6 +373,7 @@ document.getElementById('roleSelect').addEventListener('change', function () {
   localStorage.setItem("selectedRole", currentRoleId);
 
   updateRoleButtons(false);
+  updateFavouriteDisplay();
 
   const siteList = document.getElementById('siteList');
   siteList.innerHTML = '';
