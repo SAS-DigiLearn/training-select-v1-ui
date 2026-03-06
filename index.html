@@ -552,12 +552,17 @@ function updateFavouriteDisplay(){
 
   if(role){
     favDisplay.textContent = "⭐ My role: " + role.role_name;
-    favBtn.classList.add("selected");
-    favBtn.textContent = "Saved ✓";
+
+    if(currentRoleId === favRole){
+      favBtn.classList.add("selected");
+      favBtn.textContent = "Saved ✓";
+    } else {
+      favBtn.classList.remove("selected");
+      favBtn.textContent = "Replace Saved Role";
+    }
   }
 
 }
-
 </script>
 
 </body>
