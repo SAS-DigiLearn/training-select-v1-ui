@@ -503,8 +503,9 @@ document.getElementById("viewFavBtn").addEventListener("click", function(){
 
 function restoreSelections(){
 
-  const savedDept = localStorage.getItem("selectedDepartment");
-  const savedRole = localStorage.getItem("selectedRole");
+const favRole = localStorage.getItem("favouriteRole");
+const savedDept = localStorage.getItem("selectedDepartment");
+const savedRole = favRole || localStorage.getItem("selectedRole");
 
   if(!savedDept) return;
 
@@ -529,6 +530,7 @@ function restoreSelections(){
     roleSelect.value = savedRole;
     currentRoleId = savedRole;
     roleSelect.dispatchEvent(new Event("change"));
+    updateRoleButtons(true);
   }
 
 }
