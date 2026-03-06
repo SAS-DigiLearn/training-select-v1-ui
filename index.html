@@ -139,11 +139,11 @@ button:hover {
 }
 
 .faves:active {
-  background: #b91e71;
-  color: #ffffff;
+background: #b91e71;
+color: #ffffff;
 }
 
-/* Added selected state */
+/* Selected button state */
 .faves.selected {
   background: #b91e71;
   color: #ffffff;
@@ -402,9 +402,21 @@ document.getElementById("favRoleBtn").addEventListener("click", function(){
     return;
   }
 
-  localStorage.setItem("favouriteRole", currentRoleId);
+  const favRole = localStorage.getItem("favouriteRole");
 
-  this.classList.add("selected");
+  if(favRole === currentRoleId){
+
+    localStorage.removeItem("favouriteRole");
+    this.classList.remove("selected");
+    this.textContent = "Save Role";
+
+  } else {
+
+    localStorage.setItem("favouriteRole", currentRoleId);
+    this.classList.add("selected");
+    this.textContent = "Saved ✓";
+
+  }
 
   updateFavouriteDisplay();
 
@@ -434,6 +446,8 @@ document.getElementById("viewFavBtn").addEventListener("click", function(){
     roleSelect.value = favRole;
     roleSelect.dispatchEvent(new Event("change"));
   },50);
+
+  updateFavouriteDisplay();
 
 });
 
@@ -477,6 +491,8 @@ function updateFavouriteDisplay(){
 
   if(!favRole){
     favDisplay.textContent = "";
+    favBtn.classList.remove("selected");
+    favBtn.textContent = "Save Role";
     return;
   }
 
@@ -485,6 +501,7 @@ function updateFavouriteDisplay(){
   if(role){
     favDisplay.textContent = "⭐ My role: " + role.role_name;
     favBtn.classList.add("selected");
+    favBtn.textContent = "Saved ✓";
   }
 
 }
