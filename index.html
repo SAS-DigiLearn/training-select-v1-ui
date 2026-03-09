@@ -398,12 +398,22 @@ siteList.appendChild(card);
 
 document.getElementById("changeRoleBtn").addEventListener("click", function(){
 
-document.getElementById("roleSelect").value = "";
-document.getElementById("siteList").innerHTML = "";
-currentRoleId = null;
+  const deptSelect = document.getElementById("departmentSelect");
+  const roleSelect = document.getElementById("roleSelect");
 
-updateRoleButtons(false);
-updateFavouriteDisplay();
+  deptSelect.value = "";
+  roleSelect.innerHTML = '<option value="">Select department first</option>';
+  roleSelect.disabled = true;
+
+  document.getElementById("siteList").innerHTML = "";
+
+  currentRoleId = null;
+
+  localStorage.removeItem("selectedDepartment");
+  localStorage.removeItem("selectedRole");
+
+  updateRoleButtons(false);
+  updateFavouriteDisplay();
 
 });
 
