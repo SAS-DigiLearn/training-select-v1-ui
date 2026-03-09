@@ -5,13 +5,13 @@
 <title>SAS Learning Selector</title>
 
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f5f6fa;
-  }
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f6fa;
+}
 
- header {
+header {
   background: #ffffff;
   color: white;
   padding: 20px;
@@ -23,7 +23,7 @@
 }
 
 .header-logo {
-  height: 60px;     
+  height: 60px;
   width: auto;
   margin-left: 20px;
 }
@@ -75,17 +75,9 @@ select:focus {
   height: 180px;
 }
 
-.card-top {
-  flex-grow: 1;
-}
-
-.card-middle {
-  margin-bottom: 12px;
-}
-
-.card-bottom {
-  margin-top: auto;
-}
+.card-top { flex-grow: 1; }
+.card-middle { margin-bottom: 12px; }
+.card-bottom { margin-top: auto; }
 
 .site-title {
   font-size: 16px;
@@ -100,16 +92,9 @@ select:focus {
   font-size: 12px;
 }
 
-.site-badge {
-    background: #ffe5f2;
-    color: #8C1756;
-}
-  
-.course-badge {
-  background: #e0f2fe;
-  color: #075178;
-}
-  
+.site-badge { background: #ffe5f2; color: #8C1756; }
+.course-badge { background: #e0f2fe; color: #075178; }
+
 button {
   background: #b91e71;
   color: white;
@@ -120,34 +105,9 @@ button {
   width:100%;
 }
 
-button:hover {
-  opacity: 0.9;
-}
+button:hover { opacity: 0.9; }
 
-.faves {
-  background: #ffffff;
-  color: #b91e71;
-  border: solid;
-  padding: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.faves:hover {
-  background: #b91e71;
-  color: #ffffff;
-}
-
-.faves:active {
-background: #b91e71;
-color: #ffffff;
-}
-
-.faves.selected {
-  background: #b91e71;
-  color: #ffffff;
-}
-
+.faves,
 .viewfav {
   background: #ffffff;
   color: #b91e71;
@@ -157,20 +117,18 @@ color: #ffffff;
   cursor: pointer;
 }
 
+.faves:hover,
 .viewfav:hover {
   background: #b91e71;
   color: #ffffff;
 }
 
-.viewfav:active {
-background: #b91e71;
-color: #ffffff;
+.faves.selected {
+  background: #b91e71;
+  color: #ffffff;
 }
 
-
-.title {
-  color:#b91e71;
-}
+.title { color:#b91e71; }
 
 .fav-display {
   font-size:14px;
@@ -192,58 +150,46 @@ color: #ffffff;
   height: 24px;
 }
 
-.toggle input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
+.toggle input { opacity: 0; width: 0; height: 0; }
 
 .slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ffe5f2;
-  transition: .3s;
-  border-radius: 34px;
+  top:0; left:0; right:0; bottom:0;
+  background-color:#ffe5f2;
+  transition:.3s;
+  border-radius:34px;
 }
 
 .slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: #b91e71;
-  transition: .3s;
-  border-radius: 50%;
+  position:absolute;
+  content:"";
+  height:18px;
+  width:18px;
+  left:3px;
+  bottom:3px;
+  background-color:#b91e71;
+  transition:.3s;
+  border-radius:50%;
 }
 
 .toggle input:checked + .slider {
-  background-color: #1a7f37;
+  background-color:#1a7f37;
 }
 
 .toggle input:checked + .slider:before {
-  transform: translateX(20px);
-  background-color: white;
+  transform:translateX(20px);
+  background-color:white;
 }
 
 .status-text {
-  font-size: 13px;
-  font-weight: 600;
-  margin-left: 10px;
+  font-size:13px;
+  font-weight:600;
+  margin-left:10px;
 }
 
-.completed-text {
-  color: #555;
-}
-
-.outstanding-text {
-  color: #555;
-}
+.completed-text,
+.outstanding-text { color:#555; }
 
 </style>
 </head>
@@ -251,31 +197,33 @@ color: #ffffff;
 <body>
 
 <header>
-  <span class="title">SAS Role Specific Learning</span>
-  <img src="logo.png" alt="Logo" class="header-logo">
+<span class="title">SAS Role Specific Learning</span>
+<img src="logo.png" alt="Logo" class="header-logo">
 </header>
 
 <div class="container">
 
-  <div class="selectors">
+<div class="selectors">
 
-    <select id="departmentSelect">
-      <option value="">Loading departments…</option>
-    </select>
+<select id="departmentSelect">
+<option value="">Loading departments…</option>
+</select>
 
-    <select id="roleSelect" disabled>
-      <option value="">Select department first</option>
-    </select>
+<select id="roleSelect" disabled>
+<option value="">Select department first</option>
+</select>
 
-    <button id="favRoleBtn" class="faves" style="width:auto; display:none;">Save Role</button>
+<button id="favRoleBtn" class="faves" style="width:auto; display:none;">Save Role</button>
 
-    <button id="viewFavBtn" class="viewfav" style="width:auto; display:none;">View Saved Role</button>
+<button id="viewFavBtn" class="viewfav" style="width:auto; display:none;">View Saved Role</button>
 
-    <span id="favDisplay" class="fav-display"></span>
+<button id="changeRoleBtn" style="width:auto; display:none;">Change Role</button>
 
-  </div>
+<span id="favDisplay" class="fav-display"></span>
 
-  <div class="sites" id="siteList"></div>
+</div>
+
+<div class="sites" id="siteList"></div>
 
 </div>
 
@@ -288,217 +236,232 @@ let roleCourseMap = [];
 let currentRoleId = null;
 
 Promise.all([
-  fetch('courses.csv').then(r => r.text()),
-  fetch('roles.csv').then(r => r.text()),
-  fetch('role_course_map.csv').then(r => r.text())
+fetch('courses.csv').then(r => r.text()),
+fetch('roles.csv').then(r => r.text()),
+fetch('role_course_map.csv').then(r => r.text())
 ])
 .then(([coursesText, rolesText, mapText]) => {
 
-  coursesData = Papa.parse(coursesText, { header: true, skipEmptyLines: true }).data;
-  rolesData = Papa.parse(rolesText, { header: true, skipEmptyLines: true }).data;
-  roleCourseMap = Papa.parse(mapText, { header: true, skipEmptyLines: true }).data;
+coursesData = Papa.parse(coursesText, { header: true, skipEmptyLines: true }).data;
+rolesData = Papa.parse(rolesText, { header: true, skipEmptyLines: true }).data;
+roleCourseMap = Papa.parse(mapText, { header: true, skipEmptyLines: true }).data;
 
-  populateDepartments();
-  restoreSelections();
-  updateFavouriteDisplay();
-  updateRoleButtons(false);
+populateDepartments();
+restoreSelections();
+updateFavouriteDisplay();
+updateRoleButtons(false);
 
 });
 
 function updateRoleButtons(isViewingFavourite=false){
 
-  const favRole = localStorage.getItem("favouriteRole");
-  const viewBtn = document.getElementById("viewFavBtn");
-  const saveBtn = document.getElementById("favRoleBtn");
+const favRole = localStorage.getItem("favouriteRole");
+const viewBtn = document.getElementById("viewFavBtn");
+const saveBtn = document.getElementById("favRoleBtn");
 
-  if(currentRoleId){
-    saveBtn.style.display = "inline-block";
-  } else {
-    saveBtn.style.display = "none";
-  }
+if(currentRoleId){
+saveBtn.style.display = "inline-block";
+document.getElementById("changeRoleBtn").style.display = "inline-block";
+}else{
+saveBtn.style.display = "none";
+document.getElementById("changeRoleBtn").style.display = "none";
+}
 
-  if(!favRole){
-    viewBtn.style.display = "none";
-    return;
-  }
+if(!favRole){
+viewBtn.style.display = "none";
+return;
+}
 
-  if(isViewingFavourite){
-    viewBtn.style.display = "none";
-  } else {
-    viewBtn.style.display = "inline-block";
-  }
+if(isViewingFavourite){
+viewBtn.style.display = "none";
+}else{
+viewBtn.style.display = "inline-block";
+}
 
 }
 
 function populateDepartments() {
-  const deptSelect = document.getElementById('departmentSelect');
-  const departments = [...new Set(rolesData.map(r => r.department))];
 
-  deptSelect.innerHTML = '<option value="">-- Choose department --</option>';
+const deptSelect = document.getElementById('departmentSelect');
+const departments = [...new Set(rolesData.map(r => r.department))];
 
-  departments.forEach(dept => {
-    const option = document.createElement('option');
-    option.value = dept;
-    option.textContent = dept;
-    deptSelect.appendChild(option);
-  });
+deptSelect.innerHTML = '<option value="">-- Choose department --</option>';
+
+departments.forEach(dept => {
+const option = document.createElement('option');
+option.value = dept;
+option.textContent = dept;
+deptSelect.appendChild(option);
+});
+
 }
 
 document.getElementById('departmentSelect').addEventListener('change', function() {
 
-  const selectedDept = this.value;
-  localStorage.setItem("selectedDepartment", selectedDept);
+const selectedDept = this.value;
+localStorage.setItem("selectedDepartment", selectedDept);
 
-  const roleSelect = document.getElementById('roleSelect');
-  const siteList = document.getElementById('siteList');
+const roleSelect = document.getElementById('roleSelect');
+const siteList = document.getElementById('siteList');
 
-  roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
-  roleSelect.disabled = !selectedDept;
-  siteList.innerHTML = '';
+roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
+roleSelect.disabled = !selectedDept;
+siteList.innerHTML = '';
 
-  const filteredRoles = rolesData.filter(r => r.department === selectedDept);
+const filteredRoles = rolesData.filter(r => r.department === selectedDept);
 
-  filteredRoles.forEach(role => {
-    const option = document.createElement('option');
-    option.value = role.role_id;
-    option.textContent = role.role_name;
-    roleSelect.appendChild(option);
-  });
+filteredRoles.forEach(role => {
+const option = document.createElement('option');
+option.value = role.role_id;
+option.textContent = role.role_name;
+roleSelect.appendChild(option);
+});
 
 });
 
 document.getElementById('roleSelect').addEventListener('change', function () {
 
-  currentRoleId = this.value;
-  localStorage.setItem("selectedRole", currentRoleId);
+currentRoleId = this.value;
+localStorage.setItem("selectedRole", currentRoleId);
 
-  updateRoleButtons(false);
-  updateFavouriteDisplay();
+updateRoleButtons(false);
+updateFavouriteDisplay();
 
-  const siteList = document.getElementById('siteList');
-  siteList.innerHTML = '';
+const siteList = document.getElementById('siteList');
+siteList.innerHTML = '';
 
-  if (!currentRoleId) return;
+if (!currentRoleId) return;
 
-  const mappedCourseIds = roleCourseMap
-    .filter(m => m.role_id === currentRoleId)
-    .map(m => m.course_id);
+const mappedCourseIds = roleCourseMap
+.filter(m => m.role_id === currentRoleId)
+.map(m => m.course_id);
 
-  const currentCourses = coursesData
-    .filter(c => mappedCourseIds.includes(c.course_id));
+const currentCourses = coursesData
+.filter(c => mappedCourseIds.includes(c.course_id));
 
-  currentCourses.forEach(course => {
+currentCourses.forEach(course => {
 
-    const storageKey = currentRoleId + "_" + course.course_id;
-    const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
-    const isCompleted = savedStatus === "Completed";
+const storageKey = currentRoleId + "_" + course.course_id;
+const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
+const isCompleted = savedStatus === "Completed";
 
-    const isSite = course.category === "site";
-    const buttonText = isSite ? "Launch Site" : "Launch eLearning";
-    const badgeClass = isSite ? "site-badge" : "course-badge";
-    const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
+const isSite = course.category === "site";
+const buttonText = isSite ? "Launch Site" : "Launch eLearning";
+const badgeClass = isSite ? "site-badge" : "course-badge";
+const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
 
-    const card = document.createElement('div');
-    card.className = 'site-card';
+const card = document.createElement('div');
+card.className = 'site-card';
 
-    card.innerHTML = `
-      <div class="card-top">
-        <div class="site-title">${course.site}</div>
-      </div>
+card.innerHTML = `
+<div class="card-top">
+<div class="site-title">${course.site}</div>
+</div>
 
-      <div class="card-middle">
-        <span class="badge ${badgeClass}">${badgeText}</span>
-      </div>
+<div class="card-middle">
+<span class="badge ${badgeClass}">${badgeText}</span>
+</div>
 
-      <div class="card-bottom">
-        <button onclick="window.open('${course.url}','_blank')">
-          ${buttonText}
-        </button>
+<div class="card-bottom">
+<button onclick="window.open('${course.url}','_blank')">
+${buttonText}
+</button>
 
-        <div class="complete-row">
-          <label class="toggle">
-            <input type="checkbox" ${isCompleted ? 'checked' : ''}>
-            <span class="slider"></span>
-          </label>
-          <span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
-            ${isCompleted ? 'Completed' : 'Outstanding'}
-          </span>
-        </div>
-      </div>
-    `;
+<div class="complete-row">
+<label class="toggle">
+<input type="checkbox" ${isCompleted ? 'checked' : ''}>
+<span class="slider"></span>
+</label>
+<span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
+${isCompleted ? 'Completed' : 'Outstanding'}
+</span>
+</div>
+</div>
+`;
 
-    const checkbox = card.querySelector('input[type="checkbox"]');
-    const statusText = card.querySelector('.status-text');
+const checkbox = card.querySelector('input[type="checkbox"]');
+const statusText = card.querySelector('.status-text');
 
-    checkbox.addEventListener('change', function() {
-      const newStatus = this.checked ? "Completed" : "Outstanding";
-      localStorage.setItem(storageKey, newStatus);
-      statusText.textContent = newStatus;
-      statusText.className = "status-text " +
-        (this.checked ? "completed-text" : "outstanding-text");
-    });
+checkbox.addEventListener('change', function() {
+const newStatus = this.checked ? "Completed" : "Outstanding";
+localStorage.setItem(storageKey, newStatus);
+statusText.textContent = newStatus;
+statusText.className = "status-text " +
+(this.checked ? "completed-text" : "outstanding-text");
+});
 
-    siteList.appendChild(card);
+siteList.appendChild(card);
 
-  });
+});
+
+});
+
+document.getElementById("changeRoleBtn").addEventListener("click", function(){
+
+document.getElementById("roleSelect").value = "";
+document.getElementById("siteList").innerHTML = "";
+currentRoleId = null;
+
+updateRoleButtons(false);
+updateFavouriteDisplay();
 
 });
 
 document.getElementById("favRoleBtn").addEventListener("click", function(){
 
-  if(!currentRoleId){
-    alert("Select a role first");
-    return;
-  }
+if(!currentRoleId){
+alert("Select a role first");
+return;
+}
 
-  const favRole = localStorage.getItem("favouriteRole");
+const favRole = localStorage.getItem("favouriteRole");
 
-  if(favRole === currentRoleId){
+if(favRole === currentRoleId){
 
-    localStorage.removeItem("favouriteRole");
-    this.classList.remove("selected");
-    this.textContent = "Save Role";
+localStorage.removeItem("favouriteRole");
+this.classList.remove("selected");
+this.textContent = "Save Role";
 
-  } else {
+}else{
 
-    localStorage.setItem("favouriteRole", currentRoleId);
-    this.classList.add("selected");
-    this.textContent = "Saved ✓";
+localStorage.setItem("favouriteRole", currentRoleId);
+this.classList.add("selected");
+this.textContent = "Saved ✓";
 
-  }
+}
 
-  updateFavouriteDisplay();
-  updateRoleButtons(false);
+updateFavouriteDisplay();
+updateRoleButtons(false);
 
 });
 
 document.getElementById("viewFavBtn").addEventListener("click", function(){
 
-  const favRole = localStorage.getItem("favouriteRole");
+const favRole = localStorage.getItem("favouriteRole");
 
-  if(!favRole){
-    alert("No role saved");
-    return;
-  }
+if(!favRole){
+alert("No role saved");
+return;
+}
 
-  this.classList.add("selected");
+this.classList.add("selected");
 
-  const role = rolesData.find(r => r.role_id === favRole);
-  if(!role) return;
+const role = rolesData.find(r => r.role_id === favRole);
+if(!role) return;
 
-  const deptSelect = document.getElementById("departmentSelect");
-  const roleSelect = document.getElementById("roleSelect");
+const deptSelect = document.getElementById("departmentSelect");
+const roleSelect = document.getElementById("roleSelect");
 
-  deptSelect.value = role.department;
-  deptSelect.dispatchEvent(new Event("change"));
+deptSelect.value = role.department;
+deptSelect.dispatchEvent(new Event("change"));
 
-  setTimeout(()=>{
-    roleSelect.value = favRole;
-    roleSelect.dispatchEvent(new Event("change"));
-    updateRoleButtons(true);
-  },50);
+setTimeout(()=>{
+roleSelect.value = favRole;
+roleSelect.dispatchEvent(new Event("change"));
+updateRoleButtons(true);
+},50);
 
-  updateFavouriteDisplay();
+updateFavouriteDisplay();
 
 });
 
@@ -508,64 +471,65 @@ const favRole = localStorage.getItem("favouriteRole");
 const savedDept = localStorage.getItem("selectedDepartment");
 const savedRole = favRole || localStorage.getItem("selectedRole");
 
-  if(!savedDept) return;
+if(!savedDept) return;
 
-  const deptSelect = document.getElementById("departmentSelect");
-  const roleSelect = document.getElementById("roleSelect");
+const deptSelect = document.getElementById("departmentSelect");
+const roleSelect = document.getElementById("roleSelect");
 
-  deptSelect.value = savedDept;
+deptSelect.value = savedDept;
 
-  const filteredRoles = rolesData.filter(r => r.department === savedDept);
+const filteredRoles = rolesData.filter(r => r.department === savedDept);
 
-  roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
-  roleSelect.disabled = false;
+roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
+roleSelect.disabled = false;
 
-  filteredRoles.forEach(role => {
-    const option = document.createElement('option');
-    option.value = role.role_id;
-    option.textContent = role.role_name;
-    roleSelect.appendChild(option);
-  });
+filteredRoles.forEach(role => {
+const option = document.createElement('option');
+option.value = role.role_id;
+option.textContent = role.role_name;
+roleSelect.appendChild(option);
+});
 
-  if(savedRole){
-    roleSelect.value = savedRole;
-    currentRoleId = savedRole;
-    roleSelect.dispatchEvent(new Event("change"));
+if(savedRole){
+roleSelect.value = savedRole;
+currentRoleId = savedRole;
+roleSelect.dispatchEvent(new Event("change"));
 
-    const favRole = localStorage.getItem("favouriteRole");
-    updateRoleButtons(savedRole === favRole);
-  }
+const favRole = localStorage.getItem("favouriteRole");
+updateRoleButtons(savedRole === favRole);
+}
 
 }
 
 function updateFavouriteDisplay(){
 
-  const favRole = localStorage.getItem("favouriteRole");
-  const favDisplay = document.getElementById("favDisplay");
-  const favBtn = document.getElementById("favRoleBtn");
+const favRole = localStorage.getItem("favouriteRole");
+const favDisplay = document.getElementById("favDisplay");
+const favBtn = document.getElementById("favRoleBtn");
 
-  if(!favRole){
-    favDisplay.textContent = "";
-    favBtn.classList.remove("selected");
-    favBtn.textContent = "Save Role";
-    return;
-  }
+if(!favRole){
+favDisplay.textContent = "";
+favBtn.classList.remove("selected");
+favBtn.textContent = "Save Role";
+return;
+}
 
-  const role = rolesData.find(r => r.role_id === favRole);
+const role = rolesData.find(r => r.role_id === favRole);
 
-  if(role){
-    favDisplay.textContent = "My Saved Role: " + role.role_name;
+if(role){
+favDisplay.textContent = "My Saved Role: " + role.role_name;
 
-    if(currentRoleId === favRole){
-      favBtn.classList.add("selected");
-      favBtn.textContent = "Saved ✓";
-    } else {
-      favBtn.classList.remove("selected");
-      favBtn.textContent = "Replace Saved Role";
-    }
-  }
+if(currentRoleId === favRole){
+favBtn.classList.add("selected");
+favBtn.textContent = "Saved ✓";
+}else{
+favBtn.classList.remove("selected");
+favBtn.textContent = "Replace Saved Role";
+}
+}
 
 }
+
 </script>
 
 </body>
