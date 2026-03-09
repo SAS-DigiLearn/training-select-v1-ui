@@ -531,7 +531,9 @@ const savedRole = favRole || localStorage.getItem("selectedRole");
     roleSelect.value = savedRole;
     currentRoleId = savedRole;
     roleSelect.dispatchEvent(new Event("change"));
-    updateRoleButtons(true);
+
+    const favRole = localStorage.getItem("favouriteRole");
+    updateRoleButtons(savedRole === favRole);
   }
 
 }
