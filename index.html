@@ -209,8 +209,12 @@ button:hover { opacity: 0.9; }
 <option value="">Loading departments…</option>
 </select>
 
-<select id="roleSelect" disabled>
+<select id="areaSelect" disabled>
 <option value="">Select department first</option>
+</select>
+
+<select id="roleSelect" disabled>
+<option value="">Select area first</option>
 </select>
 
 <button id="favRoleBtn" class="faves" style="width:auto; display:none;">Save Role</button>
@@ -253,33 +257,6 @@ updateRoleButtons(false);
 
 });
 
-function updateRoleButtons(isViewingFavourite=false){
-
-const favRole = localStorage.getItem("favouriteRole");
-const viewBtn = document.getElementById("viewFavBtn");
-const saveBtn = document.getElementById("favRoleBtn");
-
-if(currentRoleId){
-saveBtn.style.display = "inline-block";
-document.getElementById("changeRoleBtn").style.display = "inline-block";
-}else{
-saveBtn.style.display = "none";
-document.getElementById("changeRoleBtn").style.display = "none";
-}
-
-if(!favRole){
-viewBtn.style.display = "none";
-return;
-}
-
-if(isViewingFavourite){
-viewBtn.style.display = "none";
-}else{
-viewBtn.style.display = "inline-block";
-}
-
-}
-
 function populateDepartments() {
 
 const deptSelect = document.getElementById('departmentSelect');
@@ -296,19 +273,59 @@ deptSelect.appendChild(option);
 
 }
 
-document.getElementById('departmentSelect').addEventListener('change', function() {
+function populateAreas(selectedDept){
+
+const areaSelect = document.getElementById('areaSelect');
+const roleSelect = document.getElementById('roleSelect');
+
+areaSelect.innerHTML = '<option value="">-- Choose area --</option>';
+roleSelect.innerHTML = '<option value="">Select area first</option>';
+roleSelect.disabled = true;
+
+const areas = [...new Set(
+rolesData
+.filter(r => r.department === selectedDept)
+.map(r => r.area)
+)];
+
+areas.forEach(area => {
+const option = document.createElement('option');
+option.value = area;
+option.textContent = area;
+areaSelect.appendChild(option);
+});
+
+areaSelect.disabled = false;
+
+}
+
+document.getElementById('departmentSelect').addEventListener('change', function(){
 
 const selectedDept = this.value;
 localStorage.setItem("selectedDepartment", selectedDept);
 
+document.getElementById('siteList').innerHTML = '';
+
+if(!selectedDept) return;
+
+populateAreas(selectedDept);
+
+});
+
+document.getElementById('areaSelect').addEventListener('change', function(){
+
+const selectedArea = this.value;
+localStorage.setItem("selectedArea", selectedArea);
+
 const roleSelect = document.getElementById('roleSelect');
-const siteList = document.getElementById('siteList');
 
 roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
-roleSelect.disabled = !selectedDept;
-siteList.innerHTML = '';
+roleSelect.disabled = !selectedArea;
 
-const filteredRoles = rolesData.filter(r => r.department === selectedDept);
+const filteredRoles = rolesData.filter(r =>
+r.department === document.getElementById('departmentSelect').value &&
+r.area === selectedArea
+);
 
 filteredRoles.forEach(role => {
 const option = document.createElement('option');
@@ -398,24 +415,54 @@ siteList.appendChild(card);
 
 document.getElementById("changeRoleBtn").addEventListener("click", function(){
 
-  const deptSelect = document.getElementById("departmentSelect");
-  const roleSelect = document.getElementById("roleSelect");
+const deptSelect = document.getElementById("departmentSelect");
+const areaSelect = document.getElementById("areaSelect");
+const roleSelect = document.getElementById("roleSelect");
 
-  deptSelect.value = "";
-  roleSelect.innerHTML = '<option value="">Select department first</option>';
-  roleSelect.disabled = true;
+deptSelect.value = "";
 
-  document.getElementById("siteList").innerHTML = "";
+areaSelect.value = "";
+areaSelect.innerHTML = '<option value="">Select department first</option>';
+areaSelect.disabled = true;
 
-  currentRoleId = null;
+roleSelect.innerHTML = '<option value="">Select area first</option>';
+roleSelect.disabled = true;
 
-  localStorage.removeItem("selectedDepartment");
-  localStorage.removeItem("selectedRole");
+document.getElementById("siteList").innerHTML = "";
 
-  updateRoleButtons(false);
-  updateFavouriteDisplay();
+currentRoleId = null;
+
+localStorage.removeItem("selectedDepartment");
+localStorage.removeItem("selectedArea");
+localStorage.removeItem("selectedRole");
+
+updateRoleButtons(false);
+updateFavouriteDisplay();
 
 });
+
+function updateRoleButtons(isViewingFavourite=false){
+
+const favRole = localStorage.getItem("favouriteRole");
+const viewBtn = document.getElementById("viewFavBtn");
+const saveBtn = document.getElementById("favRoleBtn");
+
+if(currentRoleId){
+saveBtn.style.display = "inline-block";
+document.getElementById("changeRoleBtn").style.display = "inline-block";
+}else{
+saveBtn.style.display = "none";
+document.getElementById("changeRoleBtn").style.display = "none";
+}
+
+if(!favRole){
+viewBtn.style.display = "none";
+return;
+}
+
+viewBtn.style.display = isViewingFavourite ? "none" : "inline-block";
+
+}
 
 document.getElementById("favRoleBtn").addEventListener("click", function(){
 
@@ -454,21 +501,26 @@ alert("No role saved");
 return;
 }
 
-this.classList.add("selected");
-
 const role = rolesData.find(r => r.role_id === favRole);
 if(!role) return;
 
 const deptSelect = document.getElementById("departmentSelect");
+const areaSelect = document.getElementById("areaSelect");
 const roleSelect = document.getElementById("roleSelect");
 
 deptSelect.value = role.department;
-deptSelect.dispatchEvent(new Event("change"));
+populateAreas(role.department);
+
+setTimeout(()=>{
+areaSelect.value = role.area;
+areaSelect.dispatchEvent(new Event("change"));
 
 setTimeout(()=>{
 roleSelect.value = favRole;
 roleSelect.dispatchEvent(new Event("change"));
 updateRoleButtons(true);
+},50);
+
 },50);
 
 updateFavouriteDisplay();
@@ -477,36 +529,34 @@ updateFavouriteDisplay();
 
 function restoreSelections(){
 
-const favRole = localStorage.getItem("favouriteRole");
 const savedDept = localStorage.getItem("selectedDepartment");
-const savedRole = favRole || localStorage.getItem("selectedRole");
+const savedArea = localStorage.getItem("selectedArea");
+const savedRole = localStorage.getItem("selectedRole");
 
 if(!savedDept) return;
 
 const deptSelect = document.getElementById("departmentSelect");
+const areaSelect = document.getElementById("areaSelect");
 const roleSelect = document.getElementById("roleSelect");
 
 deptSelect.value = savedDept;
+populateAreas(savedDept);
 
-const filteredRoles = rolesData.filter(r => r.department === savedDept);
-
-roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
-roleSelect.disabled = false;
-
-filteredRoles.forEach(role => {
-const option = document.createElement('option');
-option.value = role.role_id;
-option.textContent = role.role_name;
-roleSelect.appendChild(option);
-});
+if(savedArea){
+areaSelect.value = savedArea;
+areaSelect.dispatchEvent(new Event("change"));
+}
 
 if(savedRole){
+setTimeout(()=>{
 roleSelect.value = savedRole;
 currentRoleId = savedRole;
 roleSelect.dispatchEvent(new Event("change"));
 
 const favRole = localStorage.getItem("favouriteRole");
 updateRoleButtons(savedRole === favRole);
+
+},50);
 }
 
 }
