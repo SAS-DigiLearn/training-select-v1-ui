@@ -1,10 +1,17 @@
-role_id,department,role_name
-R001,IT & Computer Support,Learning & Development Technologist
-R002,IT & Computer Support,Learning & Development Administrator
-R003,IT & Computer Support,IT test 2
-R004,IT & Computer Support,IT test 3
-R005,IT & Computer Support,IT test 4
-R006,Procurement,Procurement Officer
-R007,Estates,Head of Estates
-R008,Estates,Technician
-R009,Finance,Head of Finance
+role_id,department,area,role_name
+R001,IT & Computer Support,Digital Learning,Learning & Development Technologist
+R002,IT & Computer Support,Digital Learning,Learning & Development Administrator
+R003,IT & Computer Support,Systems Training,IT test 2
+R004,IT & Computer Support,IT Test Area 1,IT test 3
+R005,IT & Computer Support,IT Test Area 2,IT test 4
+R006,Procurement,Pro Test Area 1,Procurement Officer
+R007,Estates,Estates Test Area 1,Head of Estates 
+R008,Estates,Estates Test Area 2,Deputy Head of Estates
+R009,Estates,Estates Test Area 3,Estates Manager (Projects)
+R010,Estates,Estates Test Area 4,Estates Manager (Buildings)
+R011,Estates,Estates Test Area 5,Estates Manager (Data and Design)
+R012,Estates,Estates Test Area 6,Estates Manager Sustainability
+R013,Estates,Estates Test Area 7,Estates Helpdesk Manager
+R014,Estates,Estates Test Area 8,Estates Officer (Sustainability)
+R015,Estates,Estates Test Area 9,Estates Helpdesk
+R016,Estates,Estates Test Area 10,Estates Maintenance Assistants 
