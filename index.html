@@ -359,59 +359,126 @@ const currentCourses = coursesData
 
 currentCourses.forEach(course => {
 
-const storageKey = currentRoleId + "_" + course.course_id;
-const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
-const isCompleted = savedStatus === "Completed";
+  const storageKey = currentRoleId + "_" + course.course_id;
+  const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
+  const isCompleted = savedStatus === "Completed";
 
-const isSite = course.category === "site";
-const buttonText = isSite ? "Launch Site" : "Launch eLearning";
-const badgeClass = isSite ? "site-badge" : "course-badge";
-const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
+  const isSite = course.category === "site";
+  const buttonText = isSite ? "Launch Site" : "Launch eLearning";
+  const badgeClass = isSite ? "site-badge" : "course-badge";
+  const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
 
-const card = document.createElement('div');
-card.className = 'site-card';
+  // ---------------------------
+  // SAFE URL VALIDATION
+  // ---------------------------
+  let safeUrl = null;
+  try {
+    const u = new URL(course.url);
+    if (u.protocol === "https:") {
+      safeUrl = u.href;
+    }
+  } catch (e) {
+    safeUrl = null;
+  }
 
-card.innerHTML = `
-<div class="card-top">
-<div class="site-title">${course.site}</div>
-</div>
+  // ---------------------------
+  // CARD CONTAINER
+  // ---------------------------
+  const card = document.createElement("div");
+  card.className = "site-card";
 
-<div class="card-middle">
-<span class="badge ${badgeClass}">${badgeText}</span>
-</div>
+  // ---------------------------
+  // TOP SECTION (TITLE)
+  // ---------------------------
+  const top = document.createElement("div");
+  top.className = "card-top";
 
-<div class="card-bottom">
-<button onclick="window.open('${course.url}','_blank')">
-${buttonText}
-</button>
+  const title = document.createElement("div");
+  title.className = "site-title";
+  title.textContent = course.site || "Untitled";
 
-<div class="complete-row">
-<label class="toggle">
-<input type="checkbox" ${isCompleted ? 'checked' : ''}>
-<span class="slider"></span>
-</label>
-<span class="status-text ${isCompleted ? 'completed-text' : 'outstanding-text'}">
-${isCompleted ? 'Completed' : 'Outstanding'}
-</span>
-</div>
-</div>
-`;
+  top.appendChild(title);
 
-const checkbox = card.querySelector('input[type="checkbox"]');
-const statusText = card.querySelector('.status-text');
+  // ---------------------------
+  // BADGE SECTION
+  // ---------------------------
+  const middle = document.createElement("div");
+  middle.className = "card-middle";
 
-checkbox.addEventListener('change', function() {
-const newStatus = this.checked ? "Completed" : "Outstanding";
-localStorage.setItem(storageKey, newStatus);
-statusText.textContent = newStatus;
-statusText.className = "status-text " +
-(this.checked ? "completed-text" : "outstanding-text");
+  const badge = document.createElement("span");
+  badge.className = `badge ${badgeClass}`;
+  badge.textContent = badgeText;
+
+  middle.appendChild(badge);
+
+  // ---------------------------
+  // BOTTOM SECTION
+  // ---------------------------
+  const bottom = document.createElement("div");
+  bottom.className = "card-bottom";
+
+  // Launch button (safe)
+  const btn = document.createElement("button");
+  btn.textContent = buttonText;
+
+  if (safeUrl) {
+    btn.addEventListener("click", () => {
+      window.open(safeUrl, "_blank", "noopener,noreferrer");
+    });
+  } else {
+    btn.disabled = true;
+    btn.textContent = "Invalid URL";
+    btn.style.opacity = "0.5";
+    btn.style.cursor = "not-allowed";
+  }
+
+  // Completion toggle row
+  const completeRow = document.createElement("div");
+  completeRow.className = "complete-row";
+
+  const label = document.createElement("label");
+  label.className = "toggle";
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.checked = isCompleted;
+
+  const slider = document.createElement("span");
+  slider.className = "slider";
+
+  label.appendChild(checkbox);
+  label.appendChild(slider);
+
+  const statusText = document.createElement("span");
+  statusText.className =
+    "status-text " + (isCompleted ? "completed-text" : "outstanding-text");
+  statusText.textContent = isCompleted ? "Completed" : "Outstanding";
+
+  // Status update handler
+  checkbox.addEventListener("change", function () {
+    const newStatus = this.checked ? "Completed" : "Outstanding";
+    localStorage.setItem(storageKey, newStatus);
+
+    statusText.textContent = newStatus;
+    statusText.className =
+      "status-text " + (this.checked ? "completed-text" : "outstanding-text");
+  });
+
+  completeRow.appendChild(label);
+  completeRow.appendChild(statusText);
+
+  // Assemble bottom
+  bottom.appendChild(btn);
+  bottom.appendChild(completeRow);
+
+  // Assemble card
+  card.appendChild(top);
+  card.appendChild(middle);
+  card.appendChild(bottom);
+
+  document.getElementById("siteList").appendChild(card);
+
 });
-
-siteList.appendChild(card);
-
-});
-
 });
 
 document.getElementById("changeRoleBtn").addEventListener("click", function(){
