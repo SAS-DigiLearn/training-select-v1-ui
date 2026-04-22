@@ -357,6 +357,8 @@ const mappedCourseIds = roleCourseMap
 const currentCourses = coursesData
 .filter(c => mappedCourseIds.includes(c.course_id));
 
+if (!Array.isArray(currentCourses)) return;  
+  
 currentCourses.forEach(course => {
 
   const storageKey = currentRoleId + "_" + course.course_id;
