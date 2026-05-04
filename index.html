@@ -385,7 +385,7 @@ currentCourses.forEach(course => {
   const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
 
   // ---------------------------
-  // SAFE URL VALIDATION
+  // Safe URL validation 
   // ---------------------------
   let safeUrl = null;
   try {
@@ -398,13 +398,13 @@ currentCourses.forEach(course => {
   }
 
   // ---------------------------
-  // CARD CONTAINER
+  // Card area
   // ---------------------------
   const card = document.createElement("div");
   card.className = "site-card";
 
   // ---------------------------
-  // TOP SECTION (TITLE)
+  // Title
   // ---------------------------
   const top = document.createElement("div");
   top.className = "card-top";
@@ -416,7 +416,7 @@ currentCourses.forEach(course => {
   top.appendChild(title);
 
   // ---------------------------
-  // BADGE SECTION
+  // Badges
   // ---------------------------
   const middle = document.createElement("div");
   middle.className = "card-middle";
@@ -428,7 +428,7 @@ currentCourses.forEach(course => {
   middle.appendChild(badge);
 
   // ---------------------------
-  // BOTTOM SECTION
+  // Bottom of the cards
   // ---------------------------
   const bottom = document.createElement("div");
   bottom.className = "card-bottom";
@@ -448,7 +448,7 @@ currentCourses.forEach(course => {
     btn.style.cursor = "not-allowed";
   }
 
-  // Completion toggle row
+  // Completion toggle row user fed
   const completeRow = document.createElement("div");
   completeRow.className = "complete-row";
 
