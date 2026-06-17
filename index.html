@@ -379,7 +379,7 @@ currentCourses.forEach(course => {
   const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
   const isCompleted = savedStatus === "Completed";
 
-  const isSite = course.category === "site";
+  onst isSite = course.type?.toLowerCase() === "site";
   const buttonText = isSite ? "Launch Site" : "Launch eLearning";
   const badgeClass = isSite ? "site-badge" : "course-badge";
   const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
@@ -411,7 +411,7 @@ currentCourses.forEach(course => {
 
   const title = document.createElement("div");
   title.className = "site-title";
-  title.textContent = course.site || "Untitled";
+  title.textContent = course.title || "Untitled";
 
   top.appendChild(title);
 
