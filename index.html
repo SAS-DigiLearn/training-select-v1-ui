@@ -392,10 +392,19 @@ currentCourses.forEach(course => {
   const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
   const isCompleted = savedStatus === "Completed";
 
-  const isSite = course.type?.toLowerCase() === "site";
-  const buttonText = isSite ? "Launch Site" : "Launch eLearning";
-  const badgeClass = isSite ? "site-badge" : "course-badge";
-  const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
+  const courseType = course.type || "Learning";
+
+const isSite = courseType.toLowerCase() === "site";
+
+const buttonText = `Launch ${courseType}`;
+
+const badgeClass = isSite
+  ? "site-badge"
+  : "course-badge";
+
+const badgeText =
+  courseType.charAt(0).toUpperCase() +
+  courseType.slice(1).toLowerCase();
 
   // ---------------------------
   // Safe URL validation 
