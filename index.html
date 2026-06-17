@@ -516,15 +516,18 @@ const directorateSelect = document.getElementById("directorateSelect");
 const departmentSelect = document.getElementById("departmentSelect");
 const roleSelect = document.getElementById("roleSelect");
 
-directorateSelect.value = "";
-  directorateSelect.innerHTML =
-'<option value="">-- Choose Directorate --</option>';
+directorateSelect.innerHTML =
+  '<option value="">-- Choose Directorate --</option>';
+
+populateDirectorates();
 
 departmentSelect.value = "";
-departmentSelect.innerHTML = '<option value="">Select directorate first</option>';
+departmentSelect.innerHTML =
+  '<option value="">Select directorate first</option>';
 departmentSelect.disabled = true;
 
-roleSelect.innerHTML = '<option value="">Select department first</option>';
+roleSelect.innerHTML =
+  '<option value="">Select department first</option>';
 roleSelect.disabled = true;
 
 document.getElementById("siteList").innerHTML = "";
