@@ -275,7 +275,7 @@ updateRoleButtons(false);
 function populateDepartments() {
 
 const deptSelect = document.getElementById('departmentSelect');
-const departments = [...new Set(rolesData.map(r => r.department))];
+const departments = [...new Set(rolesData.map(r => r.Department))];
 
 deptSelect.innerHTML = '<option value="">-- Choose department --</option>';
 
@@ -299,8 +299,8 @@ roleSelect.disabled = true;
 
 const areas = [...new Set(
 rolesData
-.filter(r => r.department === selectedDept)
-.map(r => r.area)
+.filter(r => r.Department === selectedDept)
+.map(r => r.Directorate)
 )];
 
 areas.forEach(area => {
@@ -338,14 +338,14 @@ roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
 roleSelect.disabled = !selectedArea;
 
 const filteredRoles = rolesData.filter(r =>
-r.department === document.getElementById('departmentSelect').value &&
-r.area === selectedArea
+  r.Department === document.getElementById('departmentSelect').value &&
+  r.Directorate === selectedArea
 );
 
 filteredRoles.forEach(role => {
 const option = document.createElement('option');
 option.value = role.role_id;
-option.textContent = role.role_name;
+option.textContent = role.Role;
 roleSelect.appendChild(option);
 });
 
@@ -379,7 +379,7 @@ currentCourses.forEach(course => {
   const savedStatus = localStorage.getItem(storageKey) || "Outstanding";
   const isCompleted = savedStatus === "Completed";
 
-  onst isSite = course.type?.toLowerCase() === "site";
+  const isSite = course.type?.toLowerCase() === "site";
   const buttonText = isSite ? "Launch Site" : "Launch eLearning";
   const badgeClass = isSite ? "site-badge" : "course-badge";
   const badgeText = isSite ? "Site (Multiple Modules)" : "Individual Module";
@@ -592,11 +592,11 @@ const deptSelect = document.getElementById("departmentSelect");
 const areaSelect = document.getElementById("areaSelect");
 const roleSelect = document.getElementById("roleSelect");
 
-deptSelect.value = role.department;
-populateAreas(role.department);
+deptSelect.value = role.Department;
+populateAreas(role.Department);
 
 setTimeout(()=>{
-areaSelect.value = role.area;
+areaSelect.value = role.Directorate;
 areaSelect.dispatchEvent(new Event("change"));
 
 setTimeout(()=>{
@@ -661,7 +661,7 @@ return;
 const role = rolesData.find(r => r.role_id === favRole);
 
 if(role){
-favDisplay.textContent = "My Saved Role: " + role.role_name;
+favDisplay.textContent = "My Saved Role: " + role.Role;
 
 if(currentRoleId === favRole){
 favBtn.classList.add("selected");
