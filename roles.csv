@@ -1,17 +1,215 @@
-role_id,department,area,role_name
-R001,IT & Computer Support,Digital Learning,Learning & Development Technologist
-R002,IT & Computer Support,Digital Learning,Learning & Development Administrator
-R003,IT & Computer Support,Systems Training,IT test 2
-R004,IT & Computer Support,IT Test Area 1,IT test 3
-R005,IT & Computer Support,IT Test Area 2,IT test 4
-R006,Procurement,Pro Test Area 1,Procurement Officer
-R007,Estates,Estates Test Area 1,Head of Estates 
-R008,Estates,Estates Test Area 2,Deputy Head of Estates
-R009,Estates,Estates Test Area 3,Estates Manager (Projects)
-R010,Estates,Estates Test Area 4,Estates Manager (Buildings)
-R011,Estates,Estates Test Area 5,Estates Manager (Data and Design)
-R012,Estates,Estates Test Area 6,Estates Manager Sustainability
-R013,Estates,Estates Test Area 7,Estates Helpdesk Manager
-R014,Estates,Estates Test Area 8,Estates Officer (Sustainability)
-R015,Estates,Estates Test Area 9,Estates Helpdesk
-R016,Estates,Estates Test Area 10,Estates Maintenance Assistants 
+role_id,Directorate,Department,Role
+R0001,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Communications and Engagement Manager
+R0002,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Communications Business Partner
+R0003,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Head of Corporate Affairs and Communication
+R0004,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Patient Experience Co-ordinator
+R0005,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Patient Experience Manager
+R0006,Corporate Affairs and Engagement,Corporate Affairs and Engagement,Web and Intranet Analyst Developer
+R0007,Executive,Directors,Director
+R0008,Executive,Personal Assistants,Executive Personal Assistant
+R0009,Finance and Logistics,Estates ,Deputy Head of Estates
+R0010,Finance and Logistics,Estates ,Estates Administrator
+R0011,Finance and Logistics,Estates ,Estates Helpdesk Manager
+R0012,Finance and Logistics,Estates ,Estates Manager
+R0013,Finance and Logistics,Estates ,Estates Officer
+R0014,Finance and Logistics,Estates ,Head of Estates 
+R0015,Finance and Logistics,Finance,Capital Accountant
+R0016,Finance and Logistics,Finance,Claims Administrator
+R0017,Finance and Logistics,Finance,Deputy Head of Procurement
+R0018,Finance and Logistics,Finance,Head of Costing and Capital
+R0019,Finance and Logistics,Finance,Head of Finance
+R0020,Finance and Logistics,Finance,Procurement Admin Officer
+R0021,Finance and Logistics,Finance,Procurement Assistant
+R0022,Finance and Logistics,Finance,Procurement Officer
+R0023,Finance and Logistics,Finance,Senior Finance Analyst
+R0024,Finance and Logistics,Finance,Treasury Officer
+R0025,Finance and Logistics,Fleet,Chargehand
+R0026,Finance and Logistics,Fleet,Fleet Administrator
+R0027,Finance and Logistics,Fleet,Fleet Administrator Higher Level
+R0028,Finance and Logistics,Fleet,Fleet Manager
+R0029,Finance and Logistics,Fleet,Fleet Senior Management
+R0030,Finance and Logistics,Fleet,Fleet Supervisor
+R0031,Finance and Logistics,Fleet,Fleet Systems Administrator/Manager
+R0032,Finance and Logistics,Fleet,Fleet Systems and Administration Manager
+R0033,Finance and Logistics,Fleet,Fleet Workshop Administrator
+R0034,Finance and Logistics,Fleet,Handy Person
+R0035,Finance and Logistics,Fleet,Planner
+R0036,Finance and Logistics,Fleet,Senior Fleet Administrator
+R0037,Finance and Logistics,Fleet,Stores Administrator
+R0038,Finance and Logistics,Fleet,Technician
+R0039,Finance and Logistics,Fleet,Workshop Planning Supervisor
+R0040,Finance and Logistics,Information and Communication Technology,ICT Administrator
+R0041,Finance and Logistics,Information and Communication Technology,ICT Manager
+R0042,Finance and Logistics,Information and Communication Technology,ICT Senior Manager
+R0043,Finance and Logistics,Information and Communication Technology,ICT Systems Development Officer
+R0044,Finance and Logistics,Information and Communication Technology,ICT Systems Trainer
+R0045,Finance and Logistics,Information and Communication Technology,ICT Technical staff
+R0046,Finance and Logistics,Information and Communication Technology,Learning and Development Administrator
+R0047,Finance and Logistics,Information and Communication Technology,Learning and Development Technologist
+R0048,Finance and Logistics,Procurement,Deputy Head of Procurement
+R0049,Finance and Logistics,Procurement,Head of Procurement
+R0050,Finance and Logistics,Procurement,Materials Management Operative
+R0051,Finance and Logistics,Procurement,Procurement Administrator
+R0052,Finance and Logistics,Procurement,Procurement Officer
+R0053,Finance and Logistics,Procurement,Procurement Specialist
+R0054,National Operations,Ambulance Control Centre,Administrator
+R0055,National Operations,Ambulance Control Centre,Business Support Manager
+R0056,National Operations,Ambulance Control Centre,Call Handler
+R0057,National Operations,Ambulance Control Centre,Call Handler Supervisor
+R0058,National Operations,Ambulance Control Centre,Call Performance Manager
+R0059,National Operations,Ambulance Control Centre,Complaint Resolution Manager
+R0060,National Operations,Ambulance Control Centre,Complaint Resolution team
+R0061,National Operations,Ambulance Control Centre,Critical Care Clinicians
+R0062,National Operations,Ambulance Control Centre,Data Administrator
+R0063,National Operations,Ambulance Control Centre,Dispatch Supervisor
+R0064,National Operations,Ambulance Control Centre,Dispatcher
+R0065,National Operations,Ambulance Control Centre,Dual Supervisor
+R0066,National Operations,Ambulance Control Centre,Duty Manager
+R0067,National Operations,Ambulance Control Centre,Head of Ambulance Control Services
+R0068,National Operations,Ambulance Control Centre,Head of Operational Delivery
+R0069,National Operations,Ambulance Control Centre,Head of Performance Planning and Information
+R0070,National Operations,Ambulance Control Centre,Head of Scheduled Care
+R0071,National Operations,Ambulance Control Centre,Learning and Development Manager
+R0072,National Operations,Ambulance Control Centre,MPDS Auditor
+R0073,National Operations,Ambulance Control Centre,National Dispatch Manager
+R0074,National Operations,Ambulance Control Centre,Performance Supervisor
+R0075,National Operations,Ambulance Control Centre,Practice Developer
+R0076,National Operations,Ambulance Control Centre,Real Time Analyst
+R0077,National Operations,Ambulance Control Centre,Scheduled Care Auditor
+R0078,National Operations,Ambulance Control Centre,Scheduled Care Coordinator
+R0079,National Operations,Ambulance Control Centre,Scheduled Care Manager
+R0080,National Operations,Ambulance Control Centre,Scheduled Care Supervisor
+R0081,National Operations,Ambulance Control Centre,Specialist Services Desk Call Handler
+R0082,National Operations,Ambulance Control Centre,Specialist Services Desk Dispatcher
+R0083,National Operations,Ambulance Control Centre,Specialist Services Desk Supervisor
+R0084,National Operations,Ambulance Control Centre,System Support Manager
+R0085,National Operations,Ambulance Control Centre,Workforce Planner
+R0086,National Operations,Ambulance Control Centre,Workforce Planning Supervisor
+R0087,National Operations,Ambulance Services,Advanced Practitioner
+R0088,National Operations,Ambulance Services,Ambulance Care Assistant
+R0089,National Operations,Ambulance Services,Ambulance Technician
+R0090,National Operations,Ambulance Services,Area Service Manager
+R0091,National Operations,Ambulance Services,Clinical Effectiveness Lead
+R0092,National Operations,Ambulance Services,Head of Service
+R0093,National Operations,Ambulance Services,Paramedic
+R0094,National Operations,Integrated Clinical Hub,Clinical Development Manager
+R0095,National Operations,Integrated Clinical Hub,Clinical Quality Lead
+R0096,National Operations,Integrated Clinical Hub,GP
+R0097,National Operations,Integrated Clinical Hub,ICH Clinician
+R0098,National Operations,Integrated Clinical Hub,ICH Manager
+R0099,National Operations,National Risk and Resilience,Assistant Strategic Operations Manager
+R0100,National Operations,National Risk and Resilience,Business Support Manager
+R0101,National Operations,National Risk and Resilience,CBRNe Instructor
+R0102,National Operations,National Risk and Resilience,Clinical Training Officer
+R0103,National Operations,National Risk and Resilience,Command Training Officer
+R0104,National Operations,National Risk and Resilience,Community Resilience Facilitator
+R0105,National Operations,National Risk and Resilience,Community Resilience Team Leader
+R0106,National Operations,National Risk and Resilience,Education and Training Business Administrator
+R0107,National Operations,National Risk and Resilience,Events Service Delivery Manager
+R0108,National Operations,National Risk and Resilience,Head of Risk and Resilience
+R0109,National Operations,National Risk and Resilience,Logistics Operative
+R0110,National Operations,National Risk and Resilience,Logistics Team Leader
+R0111,National Operations,National Risk and Resilience,Operational Support Manager
+R0112,National Operations,National Risk and Resilience,Resilience Advisor
+R0113,National Operations,National Risk and Resilience,Resilience Manager
+R0114,National Operations,National Risk and Resilience,Risk and Resilience Administrator
+R0115,National Operations,National Risk and Resilience,Risk and Resilience Administrator
+R0116,National Operations,National Risk and Resilience,Risk Management Administrator
+R0117,National Operations,National Risk and Resilience,Risk Management Administrator
+R0118,National Operations,National Risk and Resilience,Risk Manager
+R0119,National Operations,National Risk and Resilience,SORT Paramedic
+R0120,National Operations,National Risk and Resilience,SORT Team Leader
+R0121,National Operations,National Risk and Resilience,Special Operations Manager
+R0122,National Operations,National Risk and Resilience,Strategic Operations Manager
+R0123,National Operations,National Risk and Resilience,Training Administrator
+R0124,National Operations,National Risk and Resilience,Training and Development Compliance Manager
+R0125,National Operations,National Risk and Resilience,Training and Development Manager
+R0126,National Operations,ScotSTAR,Advanced Neonatal Nurse Practitioner
+R0127,National Operations,ScotSTAR,Advanced Neonatal Nurse Practitioner
+R0128,National Operations,ScotSTAR,Advanced Nurse Practitioner
+R0129,National Operations,ScotSTAR,Advanced Retrieval Practitioner
+R0130,National Operations,ScotSTAR,Air Ambulance Paramedics
+R0131,National Operations,ScotSTAR,EMRS Administrator
+R0132,National Operations,ScotSTAR,EMRS Advanced Retrieval Practitioner
+R0133,National Operations,ScotSTAR,EMRS Consultant
+R0134,National Operations,ScotSTAR,EMRS Fellow
+R0135,National Operations,ScotSTAR,Head of Air Ambulance Service
+R0136,National Operations,ScotSTAR,Head of ScotSTAR EMRS
+R0137,National Operations,ScotSTAR,Head of ScotSTAR Paediatrics
+R0138,National Operations,ScotSTAR,HIU Paediatric Liaison Nurse
+R0139,National Operations,ScotSTAR,Neonatal Charge Nurse
+R0140,National Operations,ScotSTAR,Neonatal Consultant
+R0141,National Operations,ScotSTAR,Neonatal Fellow
+R0142,National Operations,ScotSTAR,Neonatal Nurse Consultant
+R0143,National Operations,ScotSTAR,Neonatal Nurses
+R0144,National Operations,ScotSTAR,Neonatal Transport Nurse
+R0145,National Operations,ScotSTAR,Nurse Consultant
+R0146,National Operations,ScotSTAR,Paediatric Advanced Nurse Practitioner
+R0147,National Operations,ScotSTAR,Paediatric Consultant
+R0148,National Operations,ScotSTAR,Paediatric Fellow
+R0149,National Operations,ScotSTAR,Paediatric Nurse
+R0150,National Operations,ScotSTAR,Paediatric Nurse Consultant
+R0151,National Operations,ScotSTAR,ScotSTAR Administrator
+R0152,National Operations,ScotSTAR,ScotSTAR Driver
+R0153,National Operations,ScotSTAR,Senior Transport Charge Nurse
+R0154,National Operations,ScotSTAR,Transport Nurse
+R0155,People and Culture,Education and Professional Development,Administrator
+R0156,People and Culture,Education and Professional Development,Assistant Head of Education and Professional Development
+R0157,People and Culture,Education and Professional Development,Clinical Training Officer
+R0158,People and Culture,Education and Professional Development,Head of Education and Professional Development
+R0159,People and Culture,Health and Safety,Head of Health and Safety
+R0160,People and Culture,Health and Safety,Health and Safety team
+R0161,People and Culture,Human Resources,Head of Workforce Systems and Analytics
+R0162,People and Culture,Human Resources,Health and Safety Auditor
+R0163,People and Culture,Human Resources,Health and Safety Officer
+R0164,People and Culture,Human Resources,Human Resources Advisor
+R0165,People and Culture,Human Resources,Human Resources Assistant
+R0166,People and Culture,Human Resources,Human Resources Manager
+R0167,People and Culture,Human Resources,Human Resources Officer
+R0168,People and Culture,Human Resources,Human Resources Services Officer
+R0169,People and Culture,Human Resources,Human Resources Systems Administrator
+R0170,People and Culture,Human Resources,Specialist Staffing Adviser
+R0171,People and Culture,Infection Prevention and Control,Head of Infection Prevention and Control
+R0172,People and Culture,Infection Prevention and Control,Infection Prevention and Control Auditor
+R0173,People and Culture,Infection Prevention and Control,Infection Prevention and Control Practitioner
+R0174,People and Culture,Infection Prevention and Control,Lead Infection Prevention and Control Practitioner
+R0175,People and Culture,Infection Prevention and Control,Senior Infection Prevention and Control Practitioner
+R0176,People and Culture,Organisational Development,Head of Organisational Development
+R0177,People and Culture,Organisational Development,Organisational Development Lead
+R0178,People and Culture,Organisational Development,Wellbeing Lead
+R0179,Research and Innovation,Research and Innovation,Associate Director
+R0180,Research and Innovation,Research and Innovation,Head of Research and Innovation
+R0181,Research and Innovation,Research and Innovation,Research and Innovation Co-ordinator
+R0182,Strategy and Planning,Business Intelligence,Head of Business Intelligence
+R0183,Strategy and Planning,Business Intelligence,Information Analyst
+R0184,Strategy and Planning,Business Intelligence,Senior Information Analyst Clinical Outcomes
+R0185,Strategy and Planning,Information Governance,Head of Information Governance
+R0186,Strategy and Planning,Information Governance,Information Compliance Officer
+R0187,Strategy and Planning,Information Governance,Information Governance Officer
+R0188,Strategy and Planning,Information Governance,Records Management Officer
+R0189,Strategy and Planning,Project Management Office,Head of Programmes
+R0190,Strategy and Planning,Project Management Office,Portfolio Manager
+R0191,Strategy and Planning,Project Management Office,Programme Administrator
+R0192,Strategy and Planning,Project Management Office,Programme Manager
+R0193,Strategy and Planning,Project Management Office,Programme Support Officer
+R0194,Strategy and Planning,Project Management Office,Project Manager
+R0195,Strategy and Planning,Project Management Office,Senior Project Officer
+R0196,Strategy and Planning,Project Management Office,Strategy Programme Officer
+R0197,Strategy and Planning,Public Protection,Head of Public Protection
+R0198,Strategy and Planning,Public Protection,Public Protection Practitioner
+R0199,Strategy and Planning,Strategy,Head of Strategy Implementation and Quality Improvement
+R0200,Strategy and Planning,Strategy,Strategy Implementation Manager
+R0201,Strategy and Planning,Workforce Planning,GRS System Administrator
+R0202,Strategy and Planning,Workforce Planning,National Erostering System Administrator
+R0203,Strategy and Planning,Workforce Planning,Regional Planner
+R0204,Strategy and Planning,Workforce Planning,Resource Planner
+R0205,Strategy and Planning,Workforce Planning,Workforce Administrator
+R0206,Strategy and Planning,Workforce Planning,Workforce Planner
+R0207,Strategy and Planning,Workforce Planning,Workforce Planning Supervisor
+R0208,Strategy and Planning,Workforce Planning,Workforce Planning Supervisor
+R0209,Support Services,Office Services,Administration Assistant
+R0210,Support Services,Office Services,Administration Officer
+R0211,Support Services,Office Services,Administration Support
+R0212,Support Services,Office Services,Administrator
+R0213,Support Services,Office Services,Higher Clerical Officer
+R0214,Support Services,Office Services,Personal Assistant
