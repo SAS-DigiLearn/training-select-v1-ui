@@ -246,7 +246,7 @@ button:hover { opacity: 0.9; }
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.jsscript>
 <script>
 
 let coursesData = [];
@@ -254,23 +254,138 @@ let rolesData = [];
 let roleCourseMap = [];
 let currentRoleId = null;
 
-Promise.all([
-fetch('courses.csv').then(r => r.text()),
-fetch('roles.csv').then(r => r.text()),
-fetch('role_course_map.csv').then(r => r.text())
-])
-.then(([coursesText, rolesText, mapText]) => {
+const workbookFile =
+  'role-selector-data.xlsx';
 
-coursesData = Papa.parse(coursesText, { header: true, skipEmptyLines: true }).data;
-rolesData = Papa.parse(rolesText, { header: true, skipEmptyLines: true }).data;
-roleCourseMap = Papa.parse(mapText, { header: true, skipEmptyLines: true }).data;
+function normaliseText(value) {
+  return value === null || value === undefined
+    ? ''
+    : String(value).trim();
+}
 
-populateDirectorates();
-restoreSelections();
-updateFavouriteDisplay();
-updateRoleButtons(false);
+function normaliseRoleId(value) {
+  return normaliseText(value).toUpperCase();
+}
 
-});
+function normaliseCourseId(value) {
+  return normaliseText(value);
+}
+
+async function loadWorkbook() {
+  const directorateSelect =
+    document.getElementById('directorateSelect');
+
+  try {
+    const response = await fetch(workbookFile);
+
+    if (!response.ok) {
+      throw new Error(
+        `Could not load Excel file: ${response.status}`
+      );
+    }
+
+    const fileData = await response.arrayBuffer();
+
+    const workbook = XLSX.read(fileData, {
+      type: 'array',
+      cellDates: true
+    });
+
+    const rolesSheet = workbook.Sheets['Roles'];
+    const coursesSheet = workbook.Sheets['Courses'];
+    const mappingSheet = workbook.Sheets['Mapping'];
+
+    if (!rolesSheet || !coursesSheet || !mappingSheet) {
+      throw new Error(
+        'The workbook must contain Roles, Courses and Mapping sheets.'
+      );
+    }
+
+    /*
+      The Roles headings are on Excel row 4.
+      range: 3 tells SheetJS to begin at zero-based row 3.
+    */
+    const rawRoles = XLSX.utils.sheet_to_json(rolesSheet, {
+      range: 3,
+      defval: ''
+    });
+
+    const rawCourses = XLSX.utils.sheet_to_json(coursesSheet, {
+      defval: ''
+    });
+
+    const rawMappings = XLSX.utils.sheet_to_json(mappingSheet, {
+      defval: ''
+    });
+
+    rolesData = rawRoles
+      .map(role => ({
+        role_id: normaliseRoleId(role.role_id),
+        Directorate: normaliseText(role.Directorate),
+        Department: normaliseText(role.Department),
+        Role: normaliseText(role.Role)
+      }))
+      .filter(role =>
+        role.role_id &&
+        role.Directorate &&
+        role.Department &&
+        role.Role
+      );
+
+    coursesData = rawCourses
+      .map(course => ({
+        course_id: normaliseCourseId(course.course_id),
+        title: normaliseText(course.title),
+        type: normaliseText(course.type),
+        frequency: normaliseText(course.frequency),
+        url: normaliseText(course.url),
+        topic: normaliseText(course.topic)
+      }))
+      .filter(course =>
+        course.course_id &&
+        course.title
+      );
+
+    roleCourseMap = rawMappings
+      .filter(mapping =>
+        normaliseText(mapping.duplicate_check).toUpperCase() !==
+          'DUPLICATE' &&
+        normaliseText(mapping.role_check).toUpperCase() !==
+          'INVALID' &&
+        normaliseText(mapping.course_check).toUpperCase() !==
+          'INVALID'
+      )
+      .map(mapping => ({
+        role_id: normaliseRoleId(mapping.role_id),
+        course_id: normaliseCourseId(mapping.course_id)
+      }))
+      .filter(mapping =>
+        mapping.role_id &&
+        mapping.course_id
+      );
+
+    populateDirectorates();
+    restoreSelections();
+    updateFavouriteDisplay();
+    updateRoleButtons(false);
+
+  } catch (error) {
+    console.error(error);
+
+    directorateSelect.innerHTML =
+      '<option value="">Unable to load role data</option>';
+
+    document.getElementById('siteList').innerHTML = `
+      <div class="site-card">
+        <div class="site-title">Unable to load learning data</div>
+        <p>Please check that the Excel file is available and that its
+        filename and worksheet names have not changed.</p>
+      </div>
+    `;
+  }
+}
+
+loadWorkbook();
 
 function populateDirectorates() {
 
@@ -410,14 +525,18 @@ const badgeText =
   // Safe URL validation 
   // ---------------------------
   let safeUrl = null;
+
+if (course.url) {
   try {
     const u = new URL(course.url);
-    if (u.protocol === "https:") {
+
+    if (u.protocol === 'https:') {
       safeUrl = u.href;
     }
-  } catch (e) {
+  } catch (error) {
     safeUrl = null;
   }
+}
 
   // ---------------------------
   // Card area
@@ -463,12 +582,15 @@ const badgeText =
     btn.addEventListener("click", () => {
       window.open(safeUrl, "_blank", "noopener,noreferrer");
     });
-  } else {
-    btn.disabled = true;
-    btn.textContent = "Invalid URL";
-    btn.style.opacity = "0.5";
-    btn.style.cursor = "not-allowed";
-  }
+ } else {
+  btn.disabled = true;
+  btn.textContent = course.url
+    ? 'Invalid URL'
+    : 'Link not yet available';
+
+  btn.style.opacity = '0.5';
+  btn.style.cursor = 'not-allowed';
+}
 
   // Completion toggle row user fed
   const completeRow = document.createElement("div");
