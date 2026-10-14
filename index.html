@@ -464,11 +464,15 @@ const roleSelect = document.getElementById('roleSelect');
 roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
 roleSelect.disabled = !selectedDepartment;
 
-const filteredRoles = rolesData.filter(r =>
-  r.Directorate ===
-    document.getElementById('directorateSelect').value &&
-  r.Department === selectedDepartment
-);
+const filteredRoles = rolesData
+  .filter(r =>
+    r.Directorate ===
+      document.getElementById('directorateSelect').value &&
+    r.Department === selectedDepartment
+  )
+  .sort((a, b) => a.Role.localeCompare(b.Role));
+
+  console.log(`Found ${currentCourses.length} learning items`);
 
 filteredRoles.forEach(role => {
 const option = document.createElement('option');
