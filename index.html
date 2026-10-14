@@ -454,34 +454,45 @@ populateDepartments(selectedDirectorate);
 
 });
 
-document.getElementById('departmentSelect').addEventListener('change', function(){
+document
+  .getElementById('departmentSelect')
+  .addEventListener('change', function () {
 
-const selectedDepartment = this.value;
-localStorage.setItem("selectedDepartment", selectedDepartment);
+    const selectedDepartment = this.value;
+    localStorage.setItem('selectedDepartment', selectedDepartment);
 
-const roleSelect = document.getElementById('roleSelect');
+    const roleSelect = document.getElementById('roleSelect');
 
-roleSelect.innerHTML = '<option value="">-- Choose role --</option>';
-roleSelect.disabled = !selectedDepartment;
+    roleSelect.innerHTML =
+      '<option value="">-- Choose role --</option>';
 
-const filteredRoles = rolesData
-  .filter(r =>
-    r.Directorate ===
-      document.getElementById('directorateSelect').value &&
-    r.Department === selectedDepartment
-  )
-  .sort((a, b) => a.Role.localeCompare(b.Role));
+    roleSelect.disabled = !selectedDepartment;
 
-  console.log(`Found ${currentCourses.length} learning items`);
+    if (!selectedDepartment) {
+      return;
+    }
 
-filteredRoles.forEach(role => {
-const option = document.createElement('option');
-option.value = role.role_id;
-option.textContent = role.Role;
-roleSelect.appendChild(option);
-});
+    const selectedDirectorate =
+      document.getElementById('directorateSelect').value;
 
-});
+    const filteredRoles = rolesData
+      .filter(role =>
+        role.Directorate === selectedDirectorate &&
+        role.Department === selectedDepartment
+      )
+      .sort((a, b) =>
+        a.Role.localeCompare(b.Role, 'en-GB', {
+          sensitivity: 'base'
+        })
+      );
+
+    filteredRoles.forEach(role => {
+      const option = document.createElement('option');
+      option.value = role.role_id;
+      option.textContent = role.Role;
+      roleSelect.appendChild(option);
+    });
+  });
 
 document.getElementById('roleSelect').addEventListener('change', function () {
 
@@ -497,14 +508,16 @@ siteList.innerHTML = '';
 if (!currentRoleId) return;
 
 const mappedCourseIds = roleCourseMap
-.filter(m => m.role_id === currentRoleId)
-.map(m => m.course_id);
+  .filter(mapping => mapping.role_id === currentRoleId)
+  .map(mapping => mapping.course_id);
 
 const currentCourses = coursesData
-.filter(c => mappedCourseIds.includes(c.course_id));
+  .filter(course => mappedCourseIds.includes(course.course_id));
 
-if (!Array.isArray(currentCourses)) return;  
-  
+console.log(`Found ${currentCourses.length} learning items`);
+
+if (!Array.isArray(currentCourses)) return;
+
 currentCourses.forEach(course => {
 
   const storageKey = currentRoleId + "_" + course.course_id;
