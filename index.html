@@ -573,9 +573,14 @@ const badgeClass =
   "badge-" +
   courseType.toLowerCase().replace(/\s+/g, "-");
 
+const badgeLabels = {
+  elearning: "eLearning",
+  pdf: "PDF",
+  cpd: "CPD"
+};
+
 const badgeText =
-  courseType.charAt(0).toUpperCase() +
-  courseType.slice(1).toLowerCase();
+  badgeLabels[courseType.toLowerCase()] || courseType;
 
   // ---------------------------
   // Safe URL validation 
