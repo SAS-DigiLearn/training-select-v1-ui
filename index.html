@@ -548,9 +548,16 @@ siteList.innerHTML = '';
 
 if (!currentRoleId) return;
 
-const mappedCourseIds = roleCourseMap
-  .filter(mapping => mapping.role_id === currentRoleId)
-  .map(mapping => mapping.course_id);
+const mappedCourseIds = [
+  ...new Set(
+    roleCourseMap
+      .filter(mapping =>
+        mapping.role_id === currentRoleId ||
+        mapping.role_id === "ALL"
+      )
+      .map(mapping => mapping.course_id)
+  )
+];
 
 const currentCourses = coursesData
   .filter(course => mappedCourseIds.includes(course.course_id));
