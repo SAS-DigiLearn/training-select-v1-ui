@@ -103,6 +103,13 @@ select:focus {
   margin-bottom: 10px;
 }
 
+.badge-all-staff {
+  background: #15803d;
+  color: white;
+  margin-right: 6px;
+  font-weight: 600;
+}
+  
 .badge {
   display: inline-block;
   padding: 4px 10px;
@@ -605,6 +612,9 @@ const badgeLabels = {
 const badgeText =
   badgeLabels[courseType.toLowerCase()] || courseType;
 
+const isAllStaff =
+  allRoleCourseIds.includes(course.course_id);
+
   // ---------------------------
   // Safe URL validation 
   // ---------------------------
@@ -643,18 +653,7 @@ if (course.url) {
   // ---------------------------
   // Badges
   // ---------------------------
-  const middle = document.createElement("div");
-  middle.className = "card-middle";
-
-  const badge = document.createElement("span");
-  badge.className = `badge ${badgeClass}`;
-  badge.textContent = badgeText;
-
-  middle.appendChild(badge);
-
-  // ---------------------------
-  // Bottom of the cards
-  // ---------------------------
+ 
   const bottom = document.createElement("div");
   bottom.className = "card-bottom";
 
