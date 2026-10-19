@@ -653,7 +653,23 @@ if (course.url) {
   // ---------------------------
   // Badges
   // ---------------------------
- 
+
+const middle = document.createElement("div");
+middle.className = "card-middle";
+
+if (isAllStaff) {
+  const allStaffBadge = document.createElement("span");
+  allStaffBadge.className = "badge badge-all-staff";
+  allStaffBadge.textContent = "All Staff";
+
+  middle.appendChild(allStaffBadge);
+}
+
+const badge = document.createElement("span");
+badge.className = `badge ${badgeClass}`;
+badge.textContent = badgeText;
+
+middle.appendChild(badge);
   const bottom = document.createElement("div");
   bottom.className = "card-bottom";
 
